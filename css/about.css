@@ -1,0 +1,479 @@
+/* =====================================================================
+   about.css — About Me page
+   Loads AFTER style.css, which supplies the tokens, the reset and the
+   1600 x 900 scaler. Every number below is a design pixel on that
+   canvas, written as calc(var(--u) * N).
+   ===================================================================== */
+
+/* ---------------------------------------------------------------
+   1. BACKGROUND
+   Mirror image of the home page: black on the left, red on the
+   right, with the portrait sitting in the red.
+   --------------------------------------------------------------- */
+.page-about .bg-red{
+  background:var(--red);
+  clip-path:polygon(
+    62% 0, 100% 0, 100% 100%, 47% 100%,
+    53% 82%, 45% 66%, 55% 48%, 48% 30%, 57% 16%
+  );
+}
+
+.page-about .bg-rays{
+  top:-16%; right:-8%; left:auto; bottom:auto;
+  width:74vmax; height:74vmax;
+  background:repeating-conic-gradient(
+    from 152deg at 50% 50%,
+    var(--black-pure) 0deg 1.2deg,
+    transparent      1.2deg 8deg
+  );
+  opacity:.55;
+  clip-path:polygon(48% 30%, 100% 4%, 100% 74%, 62% 82%);
+}
+
+.page-about .bg-spike-a{
+  background:var(--red);
+  clip-path:polygon(0 0, 26% 0, 8% 18%);
+}
+.page-about .bg-spike-b{
+  background:var(--red);
+  clip-path:polygon(0 92%, 14% 100%, 0 100%);
+}
+
+.page-about .bg-dots--right{
+  color:var(--black-pure);
+  opacity:.4;
+  clip-path:polygon(66% 0, 100% 0, 100% 100%, 52% 100%);
+  -webkit-mask-image:linear-gradient(250deg,#000 0%,#000 26%,transparent 82%);
+          mask-image:linear-gradient(250deg,#000 0%,#000 26%,transparent 82%);
+}
+.page-about .bg-dots--left{
+  color:var(--white-pure);
+  opacity:.08;
+  clip-path:polygon(0 0, 40% 0, 26% 100%, 0 100%);
+  -webkit-mask-image:radial-gradient(80% 70% at 4% 6%,#000 0%,transparent 76%);
+          mask-image:radial-gradient(80% 70% at 4% 6%,#000 0%,transparent 76%);
+}
+
+/* ---------------------------------------------------------------
+   2. HEADING STACK
+   --------------------------------------------------------------- */
+.intro{
+  position:absolute;z-index:5;
+  left:calc(var(--u) * 62);
+  top:calc(var(--u) * 28);
+  width:calc(var(--u) * 900);
+}
+
+/* shared look for the white label plates */
+.intro-hi span,
+.role-plate{
+  display:inline-block;
+  background:var(--white-pure);
+  color:var(--black-pure);
+  font-family:var(--f-display);
+  text-transform:uppercase;
+  letter-spacing:.01em;
+  transform:skewX(var(--skew)) rotate(var(--tilt,0deg));
+  box-shadow:var(--pop) var(--pop) 0 var(--black-pure);
+}
+.intro-hi span > *,
+.role-plate > span{display:block;transform:skewX(calc(var(--skew) * -1))}
+
+.intro-hi{
+  margin:0 0 calc(var(--u) * -6) calc(var(--u) * 128);
+  --tilt:-2deg;
+}
+.intro-hi span{
+  font-size:calc(var(--u) * 46);
+  padding:.1em .42em .16em;
+}
+
+.intro-name{
+  margin:0 0 calc(var(--u) * 10) calc(var(--u) * 228);
+  font-family:var(--f-display);
+  font-size:calc(var(--u) * 82);
+  font-weight:400;
+  line-height:1;
+  color:var(--red-hot);
+  text-transform:uppercase;
+  letter-spacing:.01em;
+  transform:skewX(var(--skew)) rotate(1.2deg);
+  -webkit-text-stroke:calc(var(--u) * 2) var(--black-pure);
+  paint-order:stroke fill;
+}
+.intro-name span{display:block;transform:skewX(calc(var(--skew) * -1))}
+
+.intro-roles{
+  display:flex;
+  align-items:flex-start;
+  gap:calc(var(--u) * 26);
+  margin:0;
+}
+.role-plate{font-size:calc(var(--u) * 38);padding:.12em .5em .18em}
+.role-plate--a{--tilt:-1.6deg}
+.role-plate--b{--tilt:1.4deg;margin-top:calc(var(--u) * 6)}
+
+/* ---------------------------------------------------------------
+   3. BIO PANEL
+   Two nested clipped boxes: the outer is white and acts as the
+   keyline, the inner is black and inset by a few design pixels.
+   A real border can't be used because clip-path would cut it off.
+
+   The panel has a FIXED height. Extra bio text scrolls inside it
+   rather than pushing the panel down into the buttons below.
+   --------------------------------------------------------------- */
+.panel{
+  position:absolute;z-index:5;
+  left:calc(var(--u) * 42);
+  top:calc(var(--u) * 258);
+  width:calc(var(--u) * 880);
+  height:calc(var(--u) * 424);
+  background:var(--white-pure);
+  clip-path:polygon(0 0, 90% 0, 100% 100%, 5% 100%, 0 94%);
+}
+.panel-inner{
+  /* height must subtract the 4px margin on each side, or the inner
+     box overruns the bottom of .panel and hides the white keyline */
+  height:calc(100% - (var(--u) * 8));
+  margin:calc(var(--u) * 4);
+  padding:calc(var(--u) * 34) calc(var(--u) * 44) calc(var(--u) * 30);
+  background:var(--black);
+  clip-path:polygon(0 0, 90% 0, 100% 100%, 5% 100%, 0 94%);
+  display:flex;
+  flex-direction:column;
+}
+
+/* the scrolling region.
+   The native scrollbar is hidden and replaced by .bio-scroll below,
+   because ::-webkit-scrollbar cannot be rotated or skewed.
+   min-height:0 is what actually lets a flex child shrink below its
+   content height and scroll at all. */
+.bio-wrap{
+  position:relative;
+  flex:1 1 auto;
+  min-height:0;
+  display:flex;
+  margin-right:calc(var(--u) * 30);
+}
+
+.bio{
+  flex:1 1 auto;
+  min-height:0;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  padding-right:calc(var(--u) * 34);
+  font-size:calc(var(--u) * 24);
+  line-height:1.55;
+  color:var(--white);
+  scrollbar-width:none;              /* Firefox */
+  -ms-overflow-style:none;
+}
+.bio::-webkit-scrollbar{width:0;height:0;display:none}
+
+/* custom scrollbar, matching the mockup: a solid white slab with no
+   track outline — the rail below is just an invisible hit area that
+   defines the slab's travel and catches clicks. */
+.bio-scroll{
+  position:absolute;
+  right:0;top:calc(var(--u) * 2);bottom:calc(var(--u) * 2);
+  width:calc(var(--u) * 13);
+  background:transparent;
+  /* skew is INVERTED from the house angle here: the panel's right edge
+     slants bottom-right, so the slab leans the same way to sit
+     parallel with it rather than crossing it */
+  transform:skewX(calc(var(--skew) * -1));
+  opacity:0;                          /* shown by JS only when it scrolls */
+  transition:opacity .15s linear;
+}
+.bio-scroll.is-live{opacity:1}
+
+.bio-thumb{
+  position:absolute;
+  left:calc(var(--u) * -10);
+  right:0;
+  top:0;height:30%;
+  background:var(--white-pure);
+  /* tapered and tilted: full width at the top, narrowing toward the
+     bottom, with the top-left corner riding highest and the
+     bottom-right corner dropping lowest. */
+  clip-path:polygon(0 0, 100% 8%, 100% 100%, 54% 95%);
+  cursor:grab;
+}
+.bio-thumb:active{cursor:grabbing}
+
+.bio p{margin:0 0 calc(var(--u) * 22)}
+.bio p:last-child{margin-bottom:0}
+.bio strong{color:var(--white-pure);font-weight:700}
+
+.skills-head{
+  flex:none;
+  display:flex;align-items:center;
+  gap:calc(var(--u) * 18);
+  margin:calc(var(--u) * 26) calc(var(--u) * 26) calc(var(--u) * 16) 0;
+  font-family:var(--f-display);
+  font-size:calc(var(--u) * 24);
+  font-weight:400;
+  letter-spacing:.03em;
+  text-transform:uppercase;
+  color:var(--white-pure);
+  white-space:nowrap;
+}
+
+/* the rule that runs off to the right of the heading */
+.skills-head::after{
+  content:"";
+  flex:1;
+  height:calc(var(--u) * 2);
+  background:var(--white-pure);
+  opacity:.65;
+}
+
+/* skills row: one line that scrolls sideways, with arrows that only
+   appear once there are more tags than fit */
+.skills-wrap{
+  flex:none;
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:calc(var(--u) * 10);
+}
+
+.skills{
+  flex:1 1 auto;
+  min-width:0;
+  position:relative;          /* makes this the offsetParent for the tags,
+                                 so li.offsetLeft matches scrollLeft */
+  display:flex;
+  flex-wrap:nowrap;
+  gap:calc(var(--u) * 14);
+  overflow-x:auto;
+  scroll-behavior:smooth;
+  scroll-snap-type:x mandatory;
+  overscroll-behavior-x:contain;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+.skills::-webkit-scrollbar{width:0;height:0;display:none}
+
+.skills li{
+  flex:none;
+  scroll-snap-align:start;
+  border:calc(var(--u) * 2) solid var(--white-pure);
+  padding:calc(var(--u) * 9) calc(var(--u) * 22);
+  font-size:calc(var(--u) * 19);
+  font-weight:600;
+  letter-spacing:.02em;
+  color:var(--white);
+  white-space:nowrap;
+}
+
+/* arrows are hidden until JS finds the row actually overflows.
+   Each carries its own --tf so hover can add a translate without
+   wiping the skew and rotation. */
+.skills-arrow{
+  flex:none;
+  display:none;
+  width:calc(var(--u) * 34);
+  height:calc(var(--u) * 44);
+  padding:0;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  transform:var(--tf);
+  transition:transform .09s steps(2), opacity .12s linear;
+}
+.skills-arrow svg{width:100%;height:100%;display:block;overflow:visible}
+.skills-arrow polygon{fill:var(--white-pure)}
+
+.skills-arrow--prev{--tf:skewX(var(--skew)) rotate(-5deg)}
+.skills-arrow--next{--tf:skewX(calc(var(--skew) * -1)) rotate(4deg)}
+
+.skills-wrap.is-scrollable .skills-arrow{display:block}
+
+.skills-arrow:disabled{opacity:.22;cursor:default}
+.skills-arrow:not(:disabled):hover polygon,
+.skills-arrow:not(:disabled):focus-visible polygon{fill:var(--red-hot)}
+.skills-arrow--next:not(:disabled):hover{transform:var(--tf) translateX(calc(var(--u) * 4))}
+.skills-arrow--prev:not(:disabled):hover{transform:var(--tf) translateX(calc(var(--u) * -4))}
+
+/* ---------------------------------------------------------------
+   4. DISCOVER NEXT
+   Reuses .nav-btn from style.css so the plates match the home menu.
+   --------------------------------------------------------------- */
+.discover{
+  position:absolute;z-index:5;
+  left:calc(var(--u) * 62);
+  top:calc(var(--u) * 726);
+}
+
+.discover-label{
+  margin:0 0 calc(var(--u) * 14) calc(var(--u) * 6);
+  font-family:var(--f-display);
+  font-size:calc(var(--u) * 24);
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  color:var(--white-pure);
+}
+
+.discover ul{display:flex;gap:calc(var(--u) * 22)}
+.discover li:nth-child(1){--tilt:-2deg;  --slide:0}
+.discover li:nth-child(2){--tilt:1.6deg; --slide:0}
+.discover li:nth-child(3){--tilt:-1.3deg;--slide:0}
+.discover .nav-btn{font-size:calc(var(--u) * 40);padding:.22em 1em .26em}
+
+/* CV -------------------------------------------------------------- */
+.cv{
+  position:absolute;z-index:5;
+  left:calc(var(--u) * 700);
+  top:calc(var(--u) * 772);
+  display:block;
+  background:var(--red-hot);
+  color:var(--black-pure);
+  font-family:var(--f-display);
+  font-size:calc(var(--u) * 46);
+  letter-spacing:.02em;
+  text-transform:uppercase;
+  padding:.2em .55em .24em;
+  border:var(--edge) solid var(--black-pure);
+  transform:skewX(var(--skew)) rotate(1.8deg);
+  box-shadow:var(--pop) var(--pop) 0 var(--black-pure);
+  transition:transform .09s steps(2), box-shadow .09s steps(2),
+             background .09s steps(2), color .09s steps(2);
+}
+.cv span{display:block;transform:skewX(calc(var(--skew) * -1))}
+.cv:hover,.cv:focus-visible{
+  background:var(--white-pure);
+  transform:skewX(var(--skew)) rotate(1.8deg)
+            translate(calc(var(--u) * -4), calc(var(--u) * -4));
+  box-shadow:calc(var(--u) * 13) calc(var(--u) * 13) 0 var(--black-pure);
+}
+
+/* ---------------------------------------------------------------
+   5. PORTRAIT
+   The PNG already has its white frame drawn into it, so this is just
+   a positioned box — no background, no padding, no clip-path. Adding
+   any of those produces a second frame around the baked-in one.
+   --------------------------------------------------------------- */
+.shot{
+  position:absolute;z-index:4;
+  left:calc(var(--u) * 1046);
+  top:calc(var(--u) * -15);
+  width:calc(var(--u) * 600);
+  height:calc(var(--u) * 876);
+}
+.shot-frame{width:100%;height:100%}
+.shot-frame img{
+  width:100%;height:100%;
+  object-fit:contain;
+  object-position:center;
+}
+
+/* ---------------------------------------------------------------
+   6. HOME LINK
+   Uses the shared sprite in General Asset/.
+
+   position:fixed, NOT absolute. The 1600x900 frame is centred and
+   letterboxed, so anything anchored to the frame drifts away from the
+   screen corner as the window's aspect ratio changes. Fixed pins it to
+   the window instead; --u still scales the size with everything else.
+   --------------------------------------------------------------- */
+.home-link{
+  position:fixed;z-index:20;
+  right:calc(var(--u) * 0);
+  bottom:calc(var(--u) * 0);
+  width:calc(var(--u) * 82);
+  height:calc(var(--u) * 82);
+  display:block;
+  transition:transform .09s steps(2), filter .09s steps(2);
+}
+.home-link img{width:100%;height:100%;object-fit:contain}
+
+.home-link:hover,.home-link:focus-visible{
+  transform:translateY(calc(var(--u) * -4)) rotate(-3deg);
+}
+
+/* ---------------------------------------------------------------
+   7. ENTRANCE
+   --------------------------------------------------------------- */
+.page-about .intro > *,
+.page-about .panel,
+.page-about .discover,
+.page-about .cv,
+.page-about .shot{opacity:0}
+
+body.page-about.is-ready .intro > *{animation:slam .4s cubic-bezier(.2,.9,.3,1) forwards}
+body.page-about.is-ready .intro > *:nth-child(1){animation-delay:.04s}
+body.page-about.is-ready .intro > *:nth-child(2){animation-delay:.12s}
+body.page-about.is-ready .intro > *:nth-child(3){animation-delay:.20s}
+
+body.page-about.is-ready .panel   {animation:fade-up .5s ease-out .26s forwards}
+body.page-about.is-ready .discover{animation:fade-up .45s ease-out .40s forwards}
+body.page-about.is-ready .cv      {animation:fade-up .45s ease-out .48s forwards}
+body.page-about.is-ready .shot    {animation:slam-right .5s cubic-bezier(.2,.9,.3,1) .14s forwards}
+
+/* ---------------------------------------------------------------
+   8. MOBILE — the frame is switched off by style.css below 760px,
+   so everything here just needs to flow.
+   --------------------------------------------------------------- */
+@media (max-width:760px){
+  .page-about .stage{position:static;display:contents}
+
+  .intro,.panel,.discover,.cv,.shot{position:static;width:auto}
+
+  .intro{margin-bottom:1.5rem}
+  .intro-hi{margin-left:0}
+  .intro-hi span{font-size:1.5rem}
+  .intro-name{margin-left:1.5rem;font-size:2.6rem}
+  .intro-roles{flex-wrap:wrap;gap:.6rem}
+  .role-plate{font-size:1.1rem}
+
+  .panel{width:100%;height:auto}
+  .panel-inner{margin:3px;padding:1.4rem 1.2rem}
+  .bio-wrap{display:block;margin-right:0}
+  .bio{font-size:1rem;overflow:visible;padding-right:0;max-height:none}
+  .bio-scroll{display:none}
+  .skills-head{margin-right:0}
+  .bio p{margin-bottom:.9rem}
+  .skills-head{font-size:1rem;margin:1.4rem 0 .8rem;gap:.7rem}
+  .skills{gap:.5rem;flex-wrap:nowrap}
+  .skills li{font-size:.85rem;padding:.35rem .8rem;border-width:2px}
+  .skills-arrow{width:24px;height:32px}
+
+  .discover{margin-top:1.6rem}
+  .discover-label{font-size:1rem;margin-left:0}
+  .discover ul{flex-wrap:wrap;gap:.6rem}
+  .discover .nav-btn{font-size:1.15rem;padding:.22em .9em .26em}
+
+  .cv{
+    display:inline-block;
+    margin-top:1.2rem;
+    font-size:1.4rem;
+    border-width:3px;
+  }
+
+  .shot{margin:1.8rem 0 0;height:auto;order:9}
+  .shot-frame{height:auto}
+  .shot-frame img{height:auto}
+
+  .home-link{
+    position:fixed;z-index:20;
+    right:1rem;bottom:1rem;
+    width:44px;height:44px;
+  }
+
+  /* background reshaped for a portrait window */
+  .page-about .bg-red{clip-path:polygon(0 0,100% 0,100% 34%,0 46%)}
+  .page-about .bg-rays,
+  .page-about .bg-spike-a,
+  .page-about .bg-spike-b{display:none}
+  .page-about .bg-dots--right{clip-path:polygon(0 0,100% 0,100% 30%,0 42%)}
+  .page-about .bg-dots--left{display:none}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .page-about .intro > *,
+  .page-about .panel,
+  .page-about .discover,
+  .page-about .cv,
+  .page-about .shot{opacity:1;animation:none !important}
+}

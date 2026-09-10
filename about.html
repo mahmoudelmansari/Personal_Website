@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About — Mahmoud Elmansari</title>
+<meta name="description" content="Software engineer from Morocco specialising in Unity development — games, graphics and interactive experiences.">
+
+<meta property="og:title" content="About — Mahmoud Elmansari">
+<meta property="og:description" content="Software engineer from Morocco. Unity, games, graphics, interactive experiences.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Semi+Condensed:wght@400;500;600;700&family=Caveat:wght@600;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/about.css">
+</head>
+
+<body class="page-about">
+
+<!-- =================================================================
+     BACKGROUND — fluid, fills the window at any aspect
+     ================================================================= -->
+<div class="bg" aria-hidden="true">
+  <div class="bg-red"></div>
+  <div class="bg-dots bg-dots--right"></div>
+  <div class="bg-rays"></div>
+  <div class="bg-spike-a"></div>
+  <div class="bg-spike-b"></div>
+  <div class="bg-dots bg-dots--left"></div>
+</div>
+
+<!-- =================================================================
+     VIEWPORT > FRAME — composed on the 1600 x 900 canvas
+     ================================================================= -->
+<div class="viewport">
+<div class="frame">
+
+  <main class="stage">
+
+    <!-- ---------- heading stack ---------- -->
+    <header class="intro">
+      <p class="intro-hi"><span>Hi, I'm</span></p>
+      <h1 class="intro-name"><span>Mahmoud</span></h1>
+      <p class="intro-roles">
+        <span class="role-plate role-plate--a"><span>Software Engineer</span></span>
+        <span class="role-plate role-plate--b"><span>Game &amp; VR Developer</span></span>
+      </p>
+    </header>
+
+    <!-- ---------- bio panel ---------- -->
+    <section class="panel">
+      <div class="panel-inner">
+
+        <div class="bio-wrap">
+          <div class="bio">
+            <p>I'm a software engineer from Morocco, specialising in
+               <strong>Unity development</strong>, with a focus on games,
+               graphics and interactive experiences.</p>
+            <p>I like designing systems, mechanics, tools and
+               worlds. And I care about how the code is written. I stick to
+               <strong>best practices and design patterns</strong> as much as
+               possible. Most of what I learn comes from the process of
+               creating, discovering a technique I need, or reading about new
+               algorithms and maths.</p>
+            <p>I'm also deeply into <strong>visual art and animation</strong>.
+               I draw when I can. I always trying to improve my art
+               skills and fundamentals.</p>
+            <p>I'm always learning, exploring, and making new things, and I'm
+               always open to new opportunities where we can build meaningful
+               experiences.</p>
+          </div>
+          <div class="bio-scroll" aria-hidden="true"><span class="bio-thumb"></span></div>
+        </div>
+
+        <h2 class="skills-head"><span>Skills &amp; Tools</span></h2>
+        <div class="skills-wrap">
+          <button class="skills-arrow skills-arrow--prev" type="button" aria-label="Scroll skills left">
+            <svg viewBox="0 0 32 40" aria-hidden="true"><polygon points="30,0 0,17 26,40 19,18"/></svg>
+          </button>
+
+          <ul class="skills">
+            <li>Unity</li>
+            <li>C#</li>
+            <li>Shaders</li>
+            <li>Design</li>
+            <li>Blender</li>
+            <li>3D Modeling</li>
+            <li>Photoshop</li>
+            <li>Painting</li>
+            <li>Drawing</li>
+            <li>UX/UI</li>
+          </ul>
+
+          <button class="skills-arrow skills-arrow--next" type="button" aria-label="Scroll skills right">
+            <svg viewBox="0 0 32 40" aria-hidden="true"><polygon points="2,0 32,17 6,40 13,18"/></svg>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ---------- onward navigation ---------- -->
+    <nav class="discover" aria-label="Continue to">
+      <p class="discover-label">Discover next:</p>
+      <ul>
+        <li><a class="nav-btn" href="works.html"><span>Works</span></a></li>
+        <li><a class="nav-btn" href="art.html"><span>Art</span></a></li>
+        <li><a class="nav-btn" href="contact.html"><span>Contact</span></a></li>
+      </ul>
+    </nav>
+
+    <a class="cv" href="About%20Me%20Asset/CV_Mahmoud.pdf"
+       download="Mahmoud-Elmansari-CV.pdf"
+       aria-label="Download my CV as a PDF"><span>CV</span></a>
+
+    <!-- ---------- portrait ---------- -->
+    <div class="shot">
+      <div class="shot-frame">
+        <img src="About%20Me%20Asset/Me_Persona_5.png" alt="Portrait of Mahmoud Elmansari">
+      </div>
+    </div>
+
+    <!-- ---------- home ---------- -->
+    <a class="home-link" href="index.html" aria-label="Back to home">
+      <img src="General%20Asset/House_Icon_Persona.png" alt="">
+    </a>
+
+  </main>
+
+</div>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>

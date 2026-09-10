@@ -1,0 +1,554 @@
+/* =====================================================================
+   Mahmoud Elmansari — personal site
+   style.css
+
+   HOW THIS PAGE SCALES
+   --------------------
+   The composition is designed once on a fixed 1600 x 900 canvas, then
+   scaled uniformly to fit the window — the same idea as a Canvas Scaler
+   with a reference resolution.
+
+   --u is the size of one design pixel at the current window size.
+   Every measurement inside the frame is written as calc(var(--u) * N),
+   where N is the number of pixels it would be on the 1600x900 canvas.
+
+   So: a 112px headline is calc(var(--u) * 112). An element 110px from
+   the left is left:calc(var(--u) * 110). Nothing is fluid, nothing
+   drifts, and the layout cannot break at any window size.
+
+   The background sits OUTSIDE the frame and fills the whole window,
+   so there are never letterbox bars around the scaled composition.
+
+   Below 760px wide the frame is switched off entirely and a separate
+   flowing mobile layout takes over (section 12).
+   ===================================================================== */
+
+/* ---------------------------------------------------------------
+   1. TOKENS
+   --------------------------------------------------------------- */
+:root{
+  /* the scaler --------------------------------------------------- */
+  --design-w: 1600;
+  --design-h: 900;
+  --u: min(100vw / 1600, 100vh / 900);   /* one design pixel */
+
+  /* colour ------------------------------------------------------- */
+  --red:        #C9151F;
+  --red-hot:    #FF1E2D;
+  --black:      #0B0B0B;
+  --black-pure: #000000;
+  --white:      #F6F3EC;
+  --white-pure: #FFFFFF;
+
+  /* geometry (design px) ---------------------------------------- */
+  --skew:       -11deg;
+  --pop:        calc(var(--u) * 9);
+  --edge:       calc(var(--u) * 4);
+
+  /* type --------------------------------------------------------- */
+  --f-display:  "Anton", "Arial Narrow", Impact, sans-serif;
+  --f-text:     "Barlow Semi Condensed", "Arial Narrow", sans-serif;
+  --f-hand:     "Permanent Marker", cursive;
+  --f-script:   "Caveat", cursive;
+
+  /* sizes, in design px ----------------------------------------- */
+  --s-name:     calc(var(--u) * 112);
+  --s-nav:      calc(var(--u) * 44);
+  --s-role:     calc(var(--u) * 21);
+  --s-tagline:  calc(var(--u) * 54);
+  --s-body:     calc(var(--u) * 20);
+  --s-cta:      calc(var(--u) * 16);
+  --s-note:     calc(var(--u) * 17);
+
+  /* composition anchors, in design px --------------------------- */
+  --identity-x: 110;      /* left edge of the name block          */
+  --identity-y: 195;      /* top edge of the name block           */
+  --sub-indent: 26;       /* extra indent for role/tagline/blurb/cta */
+  --nav-x:      690;      /* left edge of the nav column          */
+  --nav-y:      262;      /* top edge of the nav column           */
+  --nav-w:      340;      /* nav column width (plates centre in it) */
+}
+
+/* ---------------------------------------------------------------
+   2. RESET
+   --------------------------------------------------------------- */
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%}
+html{-webkit-text-size-adjust:100%}
+
+body{
+  background:var(--black);
+  color:var(--white);
+  font-family:var(--f-text);
+  line-height:1.4;
+  overflow:hidden;
+}
+
+img{display:block;max-width:100%}
+ul{list-style:none;margin:0;padding:0}
+a{text-decoration:none;color:inherit}
+
+:focus-visible{outline:calc(var(--u) * 3) solid var(--white-pure);outline-offset:calc(var(--u) * 5)}
+
+/* ---------------------------------------------------------------
+   3. BACKGROUND — fluid, fills the window at any aspect
+   --------------------------------------------------------------- */
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg > *{position:absolute;inset:0}
+
+.bg-red{
+  background:var(--red);
+  clip-path:polygon(
+    0 0, 57% 0, 50% 13%, 56% 25%, 46% 41%,
+    53% 55%, 43% 71%, 48% 85%, 39% 100%, 0 100%
+  );
+}
+
+.bg-shard-bl{
+  background:var(--black);
+  clip-path:polygon(0 70%, 8% 76%, 4% 84%, 31% 100%, 0 100%);
+}
+
+.bg-slash{
+  background:var(--red-hot);
+  clip-path:polygon(27% 100%, 50% 30%, 53% 30%, 33% 100%);
+}
+
+.bg-shard-tr{
+  background:var(--red);
+  clip-path:polygon(70% 0, 100% 0, 100% 55%, 93% 42%, 97% 26%, 86% 24%, 90% 11%);
+}
+
+.bg-rays{
+  top:-24%; right:-14%; left:auto; bottom:auto;
+  width:78vmax; height:78vmax;
+  background:repeating-conic-gradient(
+    from 168deg at 50% 50%,
+    var(--black-pure) 0deg 1.1deg,
+    transparent      1.1deg 7.5deg
+  );
+  opacity:.85;
+  clip-path:polygon(52% 42%, 100% 8%, 100% 62%, 74% 66%);
+}
+
+.bg-bolt-a{
+  background:var(--red);
+  clip-path:polygon(63% 0, 69% 0, 60% 33%, 66% 33%, 55% 72%, 58% 40%, 52% 40%);
+  opacity:.95;
+}
+.bg-bolt-b{
+  background:var(--red-hot);
+  clip-path:polygon(88% 62%, 92% 62%, 85% 82%, 89% 82%, 78% 100%, 83% 76%, 80% 76%);
+  opacity:.9;
+}
+
+.bg-spike-tr{background:var(--black-pure);clip-path:polygon(100% 4%, 100% 7%, 78% 21%)}
+.bg-spike-br{background:var(--black-pure);clip-path:polygon(100% 88%, 100% 92%, 70% 74%)}
+
+/* halftone — one dot grid, masked so the field thins out */
+.bg-dots{
+  background-image:radial-gradient(circle, currentColor 3.1px, transparent 3.3px);
+  background-size:17px 17px;
+}
+.bg-dots--left{
+  color:var(--black-pure);
+  opacity:.20;
+  clip-path:polygon(0 0, 30% 0, 16% 100%, 0 100%);
+  -webkit-mask-image:linear-gradient(100deg,#000 0%,#000 32%,transparent 88%);
+          mask-image:linear-gradient(100deg,#000 0%,#000 32%,transparent 88%);
+}
+.bg-dots--right{
+  color:var(--white-pure);
+  opacity:.13;
+  clip-path:polygon(58% 0, 100% 0, 100% 74%, 46% 100%);
+  -webkit-mask-image:radial-gradient(70% 60% at 92% 10%,#000 0%,transparent 78%);
+          mask-image:radial-gradient(70% 60% at 92% 10%,#000 0%,transparent 78%);
+}
+.bg-dots--shard{
+  color:var(--black-pure);
+  opacity:.5;
+  clip-path:polygon(70% 0, 100% 0, 100% 55%, 93% 42%, 97% 26%, 86% 24%, 90% 11%);
+  -webkit-mask-image:linear-gradient(215deg,#000 0%,#000 18%,transparent 72%);
+          mask-image:linear-gradient(215deg,#000 0%,#000 18%,transparent 72%);
+}
+
+/* ---------------------------------------------------------------
+   4. THE SCALED FRAME
+   --------------------------------------------------------------- */
+.viewport{
+  position:fixed;inset:0;z-index:2;
+  display:grid;place-items:center;
+  overflow:hidden;
+}
+
+.frame{
+  position:relative;
+  width:calc(var(--u) * var(--design-w));
+  height:calc(var(--u) * var(--design-h));
+}
+
+/* everything inside the frame is absolutely placed on the canvas */
+.stage{position:absolute;inset:0}
+
+/* ---------------------------------------------------------------
+   5. PORTRAIT
+   --------------------------------------------------------------- */
+.portrait{
+  position:absolute;
+  right:0;bottom:0;
+  width:calc(var(--u) * 780);
+  height:calc(var(--u) * 900);
+  z-index:1;
+  pointer-events:none;
+}
+.portrait img{
+  height:100%;width:100%;
+  object-fit:contain;
+  object-position:bottom right;
+}
+
+/* ---------------------------------------------------------------
+   6. STARS
+   --------------------------------------------------------------- */
+.decor{position:absolute;inset:0;z-index:3;pointer-events:none}
+
+/* stars are a PNG asset (Home Page Asset/star.png) */
+.star{position:absolute;display:block}
+.star img{width:100%;height:100%;object-fit:contain}
+
+.star--tl{
+  top:calc(var(--u) * -70); left:calc(var(--u) * -210);
+  width:calc(var(--u) * 250); height:calc(var(--u) * 250);
+  transform:rotate(10deg);
+}
+.star--br{
+  bottom:calc(var(--u) * 22); right:calc(var(--u) * -130);
+  width:calc(var(--u) * 50); height:calc(var(--u) * 50);
+  transform:rotate(14deg);
+}
+
+/* ---------------------------------------------------------------
+   7. MARGINALIA
+   --------------------------------------------------------------- */
+.note{
+  position:absolute;z-index:4;margin:0;
+  font-family:var(--f-hand);
+  font-size:var(--s-note);
+  line-height:1.35;
+  letter-spacing:.02em;
+  pointer-events:none;
+}
+.note--tl{
+  top:calc(var(--u) * 80); left:calc(var(--u) * -25);
+  color:var(--black-pure); transform:rotate(-4deg);
+}
+.note--bl{
+  bottom:calc(var(--u) * 20); left:calc(var(--u) * -20);
+  color:var(--white-pure); transform:rotate(-3deg);
+}
+
+.note-swoosh{
+  display:block;width:5.5em;height:.5em;margin-top:.25em;
+  border-bottom:calc(var(--u) * 2) solid currentColor;
+  border-radius:0 0 90% 10%;
+  transform:rotate(3deg);
+}
+
+/* ---------------------------------------------------------------
+   8. IDENTITY
+   --------------------------------------------------------------- */
+.identity{
+  position:absolute;z-index:5;
+  left:calc(var(--u) * var(--identity-x));
+  top:calc(var(--u) * var(--identity-y));
+  width:calc(var(--u) * 680);
+}
+
+.name{
+  position:relative;
+  width:max-content;
+  margin:0 0 calc(var(--u) * 16);
+  font-weight:400;line-height:1;
+}
+
+.name-slab{
+  position:absolute;
+  top:-.18em;left:-.34em;right:-1.1em;bottom:-.1em;
+  background:var(--white-pure);
+  transform:skewX(var(--skew)) rotate(-2deg);
+  z-index:0;
+}
+
+.name-line{
+  position:relative;z-index:1;
+  display:table;
+  font-family:var(--f-display);
+  font-size:var(--s-name);
+  letter-spacing:.005em;
+  text-transform:uppercase;
+  padding:.09em .3em .15em;
+  box-shadow:var(--pop) var(--pop) 0 var(--black-pure);
+}
+.name-line span{display:block;transform:skewX(calc(var(--skew) * -1))}
+
+.name-line--first{
+  background:var(--white-pure);
+  color:var(--black-pure);
+  margin-left:.05em;
+  transform:skewX(var(--skew)) rotate(-1.4deg);
+}
+.name-line--last{
+  background:var(--black-pure);
+  color:var(--red-hot);
+  margin-top:-.05em;
+  transform:skewX(var(--skew)) rotate(.9deg);
+}
+
+.role{
+  display:table;
+  margin:0 0 calc(var(--u) * 26) calc(var(--u) * var(--sub-indent));
+  background:var(--black-pure);
+  color:var(--white);
+  font-size:var(--s-role);
+  font-weight:500;
+  letter-spacing:.03em;
+  padding:.45em 1em;
+  transform:skewX(var(--skew)) rotate(-.8deg);
+}
+.role span{display:block;transform:skewX(calc(var(--skew) * -1))}
+
+.tagline{
+  display:table;position:relative;
+  margin:0 0 calc(var(--u) * 22) calc(var(--u) * var(--sub-indent));
+  font-family:var(--f-script);
+  font-weight:700;
+  font-size:var(--s-tagline);
+  line-height:1;
+  color:var(--white-pure);
+  padding-bottom:.14em;
+  transform:rotate(-1.6deg);
+}
+.tagline::after{
+  content:"";position:absolute;left:.05em;right:1.2em;bottom:0;
+  height:calc(var(--u) * 3);
+  background:var(--white-pure);
+  border-radius:0 0 60% 40%;
+  transform:rotate(-.6deg);
+}
+
+.blurb{
+  margin:0 0 calc(var(--u) * 30) calc(var(--u) * var(--sub-indent));
+  font-size:var(--s-body);
+  color:var(--white);
+}
+
+.cta{
+  display:inline-flex;align-items:center;gap:1.1em;
+  margin-left:calc(var(--u) * var(--sub-indent));
+  border:calc(var(--u) * 3) solid var(--white-pure);
+  color:var(--white-pure);
+  font-weight:600;
+  font-size:var(--s-cta);
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  padding:.9em 1.7em;
+  transform:skewX(var(--skew)) rotate(-1deg);
+  transition:background .07s steps(2), color .07s steps(2), box-shadow .07s steps(2);
+}
+.cta > *{transform:skewX(calc(var(--skew) * -1))}
+.cta-arrow{width:2.5em;height:auto}
+.cta:hover,.cta:focus-visible{
+  background:var(--white-pure);
+  color:var(--black-pure);
+  box-shadow:var(--pop) var(--pop) 0 var(--black-pure);
+}
+
+/* ---------------------------------------------------------------
+   9. NAV
+   --------------------------------------------------------------- */
+.nav{
+  position:absolute;z-index:5;
+  left:calc(var(--u) * var(--nav-x));
+  top:calc(var(--u) * var(--nav-y));
+  width:calc(var(--u) * var(--nav-w));
+}
+.nav ul{display:flex;flex-direction:column;align-items:center}
+
+.nav li{margin-top:-.1em}
+.nav li:first-child{margin-top:0}
+
+/* per-plate placement: --tilt is rotation, --slide offsets it
+   horizontally from the stack's centre axis */
+.nav li:nth-child(1){--tilt:-2.4deg; --slide:1.6em; z-index:5}
+.nav li:nth-child(2){--tilt: 1.5deg; --slide:0;     z-index:4}
+.nav li:nth-child(3){--tilt:-1.2deg; --slide:1.1em; z-index:3}
+.nav li:nth-child(4){--tilt: 2.1deg; --slide:.35em; z-index:2}
+.nav li:nth-child(5){--tilt:-1.8deg; --slide:1.3em; z-index:1}
+
+.nav-btn{
+  display:block;
+  margin-left:var(--slide);
+  background:var(--white-pure);
+  color:var(--black-pure);
+  font-family:var(--f-display);
+  font-size:var(--s-nav);
+  letter-spacing:.02em;
+  text-transform:uppercase;
+  text-align:center;
+  white-space:nowrap;
+  padding:.28em 1.2em .32em;
+  border:var(--edge) solid var(--black-pure);
+  transform:skewX(var(--skew)) rotate(var(--tilt));
+  box-shadow:var(--pop) var(--pop) 0 var(--black-pure);
+  transition:transform .07s steps(2), box-shadow .07s steps(2),
+             background .07s steps(2), color .07s steps(2);
+}
+.nav-btn span{display:block;transform:skewX(calc(var(--skew) * -1))}
+
+.nav-btn:hover,.nav-btn:focus-visible{
+  transform:skewX(var(--skew)) rotate(var(--tilt))
+            translate(calc(var(--u) * -4), calc(var(--u) * -4));
+  box-shadow:calc(var(--u) * 7) calc(var(--u) * 7) 0 var(--black-pure);
+}
+
+.nav-btn.is-active{
+  background:var(--red-hot);
+  color:var(--white-pure);
+  border-color:var(--white-pure);
+  outline:var(--edge) solid var(--black-pure);
+  outline-offset:0;
+}
+.nav-btn.is-active:focus-visible{
+  outline-color:var(--white-pure);
+  outline-offset:calc(var(--u) * 5);
+}
+
+/* ---------------------------------------------------------------
+   9b. HOME LINK  (shared by every inner page)
+   position:fixed, NOT absolute. The frame is centred and letterboxed,
+   so anything anchored to it drifts away from the screen corner as the
+   window's aspect ratio changes. --u still scales the size.
+   --------------------------------------------------------------- */
+.home-link{
+  position:fixed;z-index:20;
+  right:calc(var(--u) * 30);
+  bottom:calc(var(--u) * 24);
+  width:calc(var(--u) * 82);
+  height:calc(var(--u) * 82);
+  display:block;
+  transition:transform .09s steps(2);
+}
+.home-link img{width:100%;height:100%;object-fit:contain}
+.home-link:hover,.home-link:focus-visible{
+  transform:translateY(calc(var(--u) * -4)) rotate(-3deg);
+}
+
+@media (max-width:760px){
+  .home-link{right:1rem;bottom:1rem;width:44px;height:44px}
+}
+
+/* ---------------------------------------------------------------
+   10. ENTRANCE — one sequence, then stillness
+   --------------------------------------------------------------- */
+.identity > *,.nav li,.portrait,.note,.star{opacity:0}
+
+body.is-ready .identity > *{animation:slam .42s cubic-bezier(.2,.9,.3,1) forwards}
+body.is-ready .identity > *:nth-child(1){animation-delay:.05s}
+body.is-ready .identity > *:nth-child(2){animation-delay:.13s}
+body.is-ready .identity > *:nth-child(3){animation-delay:.21s}
+body.is-ready .identity > *:nth-child(4){animation-delay:.29s}
+body.is-ready .identity > *:nth-child(5){animation-delay:.37s}
+
+body.is-ready .nav li{animation:slam-right .38s cubic-bezier(.2,.9,.3,1) forwards}
+body.is-ready .nav li:nth-child(1){animation-delay:.30s}
+body.is-ready .nav li:nth-child(2){animation-delay:.37s}
+body.is-ready .nav li:nth-child(3){animation-delay:.44s}
+body.is-ready .nav li:nth-child(4){animation-delay:.51s}
+body.is-ready .nav li:nth-child(5){animation-delay:.58s}
+
+body.is-ready .portrait{animation:fade-up .6s ease-out .16s forwards}
+
+/* stars and notes only fade — a transform keyframe would wipe rotation */
+body.is-ready .star{animation:fade-in .5s ease-out .62s forwards}
+body.is-ready .note{animation:fade-in .5s ease-out .78s forwards}
+
+@keyframes slam      {from{opacity:0;transform:translateX(-3em)} to{opacity:1;transform:none}}
+@keyframes slam-right{from{opacity:0;transform:translateX(3em)}  to{opacity:1;transform:none}}
+@keyframes fade-up   {from{opacity:0;transform:translateY(2em)}  to{opacity:1;transform:none}}
+@keyframes fade-in   {from{opacity:0} to{opacity:1}}
+
+/* ---------------------------------------------------------------
+   11. VERY WIDE / VERY TALL WINDOWS
+   The frame stays centred; the background fills the rest. Nothing
+   here needs a breakpoint — this block only stops the composition
+   from becoming absurdly small in an extreme sliver of a window.
+   --------------------------------------------------------------- */
+@media (min-aspect-ratio:2.6/1){
+  :root{--u:min(100vw / 2100, 100vh / 900)}
+}
+
+/* ---------------------------------------------------------------
+   12. MOBILE — frame off, real flowing layout
+   --------------------------------------------------------------- */
+@media (max-width:760px){
+  :root{
+    --u:1px;                       /* stop scaling; use real pixels */
+    --pop:6px;
+    --edge:3px;
+    --s-name:clamp(2.1rem, 11.5vw, 3.6rem);
+    --s-nav:1.2rem;
+    --s-role:.85rem;
+    --s-tagline:clamp(1.5rem, 8vw, 2.2rem);
+    --s-body:1rem;
+    --s-cta:.8rem;
+  }
+
+  body{overflow-y:auto}
+
+  .viewport{position:static;display:block;overflow:visible}
+  .frame{width:auto;height:auto;min-height:100svh;
+         display:flex;flex-direction:column;justify-content:center;
+         gap:2rem;padding:clamp(1.25rem,6vw,2rem)}
+
+  .stage{position:static;display:contents}
+
+  .identity{position:static;width:auto}
+  .name{margin-bottom:1rem}
+  .name-slab{right:-.5em}
+  .role,.tagline,.blurb,.cta{margin-left:0}
+  .blurb{display:none}
+
+  .nav{position:static;width:auto;order:2}
+  .nav ul{flex-direction:row;flex-wrap:wrap;gap:.75em .6em;align-items:flex-start}
+  .nav li{margin:0}
+  .nav-btn{margin-left:0;padding:.24em .85em .28em}
+
+  .portrait{
+    position:fixed;
+    right:-16%;bottom:0;
+    width:112%;height:62svh;
+    opacity:.3;z-index:0;
+  }
+
+  .decor,.note{display:none}
+
+  /* background reshaped for a portrait window */
+  .bg-red{clip-path:polygon(0 0,100% 0,100% 58%,62% 66%,68% 74%,0 80%)}
+  .bg-shard-tr,.bg-rays,.bg-bolt-a,.bg-bolt-b,
+  .bg-spike-tr,.bg-spike-br,.bg-dots--shard{display:none}
+  .bg-dots--left{clip-path:polygon(0 0,100% 0,100% 22%,0 30%)}
+  .bg-dots--right{clip-path:polygon(0 62%,100% 52%,100% 100%,0 100%)}
+}
+
+/* ---------------------------------------------------------------
+   13. ACCESSIBILITY
+   --------------------------------------------------------------- */
+@media (prefers-reduced-motion:reduce){
+  .identity > *,.nav li,.portrait,.note,.star{opacity:1;animation:none !important}
+  *{transition-duration:.01ms !important}
+}
+
+@media print{
+  .bg,.decor,.note{display:none}
+  body{overflow:visible;background:#fff;color:#000}
+}

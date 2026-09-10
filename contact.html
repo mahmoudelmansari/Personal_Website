@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — Mahmoud Elmansari</title>
+<meta name="description" content="Get in touch with Mahmoud Elmansari — Unity developer, games, graphics and interactive experiences.">
+
+<meta property="og:title" content="Contact — Mahmoud Elmansari">
+<meta property="og:description" content="Let's talk.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Semi+Condensed:wght@400;500;600;700&family=Caveat:wght@600;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/contact.css">
+</head>
+
+<body class="page-contact">
+
+<!-- =================================================================
+     BACKGROUND — the supplied artwork, covering the whole window
+     ================================================================= -->
+<div class="bg" aria-hidden="true">
+  <img class="bg-art" src="Contact%20Page%20Asset/background.png" alt="">
+</div>
+
+<!-- =================================================================
+     VIEWPORT > FRAME — composed on the 1600 x 900 canvas
+     ================================================================= -->
+<div class="viewport">
+<div class="frame">
+
+  <main class="stage">
+
+    <!-- ---------- the flip card ---------- -->
+    <div class="card" id="card">
+      <div class="card-inner">
+
+        <!-- side A: the face -->
+        <div class="card-face card-face--front">
+          <img class="card-plate" src="Contact%20Page%20Asset/Card_Front.png" alt="">
+          <img class="card-portrait" src="Contact%20Page%20Asset/Card_Back_Face.png"
+               alt="Stylised portrait of Mahmoud Elmansari">
+        </div>
+
+        <!-- side B: the details -->
+        <div class="card-face card-face--back">
+          <img class="card-plate" src="Contact%20Page%20Asset/Card_Front.png" alt="">
+
+          <ul class="details">
+            <li>
+              <a href="mailto:mahmoudelmansari@gmail.com">
+                <img src="Contact%20Page%20Asset/Email_Icon.png" alt="" class="details-icon">
+                <span>mahmoudelmansari@gmail.com</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.instagram.com/mahmoudlmansari/"
+                 target="_blank" rel="noopener">
+                <img src="Contact%20Page%20Asset/instagram_Icon.png" alt="" class="details-icon">
+                <span>Instagram / Mahmoud Elmansari</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.linkedin.com/in/mahmoud-el-mansari/"
+                 target="_blank" rel="noopener">
+                <img src="Contact%20Page%20Asset/Linkedin_Icon.png" alt="" class="details-icon">
+                <span>LinkedIn / Mahmoud Elmansari</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ---------- title, sits over the card ---------- -->
+    <img class="title" src="Contact%20Page%20Asset/Contact_Title.png"
+         alt="Contact — let's talk">
+
+    <!-- ---------- flip control ---------- -->
+    <button class="flip" type="button"
+            aria-controls="card" aria-pressed="false"
+            aria-label="Flip the card to see contact details">
+      <span>Flip</span>
+    </button>
+
+    <!-- ---------- marginalia ---------- -->
+    <p class="note note--left" aria-hidden="true">
+      <span class="note-text">Let's<br>Create<br>Together.
+        <img class="note-dash" src="Contact%20Page%20Asset/dash_stroke.png" alt="">
+      </span>
+      <img class="note-star" src="Contact%20Page%20Asset/star.png" alt="">
+    </p>
+    <p class="note note--right" aria-hidden="true">
+      See<br>You<br>Around.
+      <img class="note-dash" src="Contact%20Page%20Asset/dash_stroke.png" alt="">
+    </p>
+
+    <!-- ---------- onward navigation ---------- -->
+    <nav class="elsewhere" aria-label="Continue to">
+      <ul>
+        <li><a class="nav-btn" href="about.html"><span>About</span></a></li>
+        <li><a class="nav-btn" href="works.html"><span>Works</span></a></li>
+        <li><a class="nav-btn" href="art.html"><span>Art</span></a></li>
+      </ul>
+    </nav>
+
+    <!-- ---------- home ---------- -->
+    <a class="home-link" href="index.html" aria-label="Back to home">
+      <img src="General%20Asset/House_Icon_Persona.png" alt="">
+    </a>
+
+  </main>
+
+</div>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>

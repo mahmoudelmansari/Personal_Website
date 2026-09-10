@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mahmoud Elmansari — Game &amp; VR Developer</title>
+<meta name="description" content="Software engineer, game and VR developer. Building imagination in Unity.">
+
+<meta property="og:title" content="Mahmoud Elmansari — Game &amp; VR Developer">
+<meta property="og:description" content="Building imagination.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Semi+Condensed:wght@400;500;600&family=Caveat:wght@600;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="page-home">
+
+<!-- =================================================================
+     BACKGROUND
+     Lives OUTSIDE the scaled frame and always fills the window, so
+     there are never letterbox bars. Its shapes are percentage-based
+     and abstract, so they reflow at any aspect without breaking.
+     ================================================================= -->
+<div class="bg" aria-hidden="true">
+  <div class="bg-red"></div>
+  <div class="bg-dots bg-dots--left"></div>
+  <div class="bg-rays"></div>
+  <div class="bg-dots bg-dots--right"></div>
+  <div class="bg-shard-tr"></div>
+  <div class="bg-dots bg-dots--shard"></div>
+  <div class="bg-bolt-a"></div>
+  <div class="bg-bolt-b"></div>
+  <div class="bg-spike-tr"></div>
+  <div class="bg-spike-br"></div>
+  <div class="bg-shard-bl"></div>
+  <div class="bg-slash"></div>
+</div>
+
+<!-- =================================================================
+     VIEWPORT > FRAME
+     Everything below is composed on a fixed 1600x900 canvas and
+     scaled as one piece. Positions inside never change.
+     ================================================================= -->
+<div class="viewport">
+<div class="frame">
+
+  <div class="portrait">
+    <img src="Home%20Page%20Asset/Home%20Portrait.png" alt="Portrait of Mahmoud Elmansari">
+  </div>
+
+  <div class="decor" aria-hidden="true">
+    <span class="star star--tl"><img src="Home%20Page%20Asset/star.png" alt=""></span>
+    <span class="star star--br"><img src="Home%20Page%20Asset/star.png" alt=""></span>
+  </div>
+
+  <p class="note note--tl" aria-hidden="true">Create<br>Iterate<br>Improve.<span class="note-swoosh"></span></p>
+  <p class="note note--bl" aria-hidden="true">More<br>Imagination<br>Better<br>World.<span class="note-swoosh"></span></p>
+
+  <main class="stage">
+
+    <section class="identity">
+      <h1 class="name">
+        <span class="name-slab" aria-hidden="true"></span>
+        <span class="name-line name-line--first"><span>Mahmoud</span></span>
+        <span class="name-line name-line--last"><span>Elmansari</span></span>
+      </h1>
+
+      <p class="role"><span>Software Engineer / Game &amp; VR Developer</span></p>
+
+      <p class="tagline">Building Imagination.</p>
+
+      <p class="blurb">I create interactive experiences through<br>code, design, and imagination.</p>
+
+      <a class="cta" href="works.html">
+        <span>View my works</span>
+        <svg class="cta-arrow" viewBox="0 0 40 12" aria-hidden="true">
+          <path d="M0 6h34M28 1l6 5-6 5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+        </svg>
+      </a>
+    </section>
+
+    <nav class="nav" aria-label="Main">
+      <ul>
+        <li><a class="nav-btn is-active" href="index.html" aria-current="page"><span>Home</span></a></li>
+        <li><a class="nav-btn" href="about.html"><span>About Me</span></a></li>
+        <li><a class="nav-btn" href="works.html"><span>Works</span></a></li>
+        <li><a class="nav-btn" href="art.html"><span>Art</span></a></li>
+        <li><a class="nav-btn" href="contact.html"><span>Contact</span></a></li>
+      </ul>
+    </nav>
+
+  </main>
+
+</div>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
