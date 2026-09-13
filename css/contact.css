@@ -110,8 +110,8 @@
    done with scale() below, NOT width — width would change the box and
    push each label to a different x. */
 .details-icon{
-  width:calc(var(--u) * 90);
-  height:calc(var(--u) * 90);
+  width:calc(var(--u) * 75);
+  height:calc(var(--u) * 75);
   object-fit:contain;
   object-position:center;
   flex:none;
@@ -131,27 +131,34 @@
 
    translate(x, y): negative x moves left, negative y moves up.
    scale():         visual size only, layout box stays 90x90.
-   1 = email, 2 = Instagram, 3 = LinkedIn
+   1 = email, 2 = Instagram, 3 = LinkedIn, 4 = GitHub
    ------------------------------------------------------------------ */
 .details li:nth-child(1) .details-icon{
-  transform:translate(calc(var(--u) * -6), calc(var(--u) * 40)) scale(1);
+  transform:translate(calc(var(--u) * -6), calc(var(--u) * 80)) scale(1);
 }
 .details li:nth-child(1) a span{
-  transform:translateY(calc(var(--u) * 40));
+  transform:translateY(calc(var(--u) * 80));
 }
 
 .details li:nth-child(2) .details-icon{
-  transform:translate(0, 0) scale(1);
+  transform:translate(calc(var(--u) * 3), calc(var(--u) * 27)) scale(1);
 }
 .details li:nth-child(2) a span{
-  transform:translateY(0);
+  transform:translateY(calc(var(--u) * 27));
 }
 
 .details li:nth-child(3) .details-icon{
-  transform:translate(calc(var(--u) * 10), calc(var(--u) * -35)) scale(.89);
+  transform:translate(calc(var(--u) * 10), calc(var(--u) * -20)) scale(.89);
 }
 .details li:nth-child(3) a span{
-  transform:translateY(calc(var(--u) * -35));
+  transform:translateY(calc(var(--u) * -20));
+}
+
+.details li:nth-child(4) .details-icon{
+  transform:translate(calc(var(--u) * 15), calc(var(--u) * -68)) scale(.89);
+}
+.details li:nth-child(4) a span{
+  transform:translateY(calc(var(--u) * -68));
 }
 
 /* ---------------------------------------------------------------

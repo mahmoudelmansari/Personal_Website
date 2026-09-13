@@ -1,0 +1,734 @@
+/* =====================================================================
+   works.css — Works page
+   ---------------------------------------------------------------------
+   Unlike the other pages, this one SCROLLS, so it can't use the fixed
+   1600x900 frame. --u is redefined here as a width-driven design pixel
+   with a floor and a ceiling, so the same design-pixel authoring still
+   works but the page is free to grow downward.
+   ===================================================================== */
+
+.page-works{
+  /* one design pixel: tracks width, clamped so it never gets unreadable
+     on a small window or absurd on an ultrawide monitor */
+  --u: clamp(0.58px, 100vw / 1600, 1.25px);
+  overflow-x:hidden;
+  overflow-y:auto;
+}
+
+/* the shared reset locks the body; this page needs to scroll */
+body.page-works{overflow:auto;height:auto;min-height:100%}
+
+/* ---------------------------------------------------------------
+   1. BACKGROUND — fixed behind the scrolling content
+   --------------------------------------------------------------- */
+.page-works .bg{position:fixed;inset:0;z-index:0;background:var(--red)}
+.page-works .bg > *{position:absolute;inset:0}
+
+.page-works .bg-red{
+  background:var(--black);
+  clip-path:polygon(0 0, 8% 0, 4% 22%, 10% 46%, 3% 70%, 9% 100%, 0 100%);
+}
+.bg-slash-a{
+  background:var(--black);
+  clip-path:polygon(100% 0, 100% 14%, 88% 4%);
+}
+.bg-slash-b{
+  background:var(--black);
+  clip-path:polygon(0 88%, 12% 100%, 0 100%);
+}
+.page-works .bg-dots{
+  background-image:radial-gradient(circle, currentColor 3.1px, transparent 3.3px);
+  background-size:17px 17px;
+}
+.bg-dots--tl{
+  color:var(--black-pure);opacity:.34;
+  clip-path:polygon(0 0, 34% 0, 16% 40%, 0 40%);
+  -webkit-mask-image:linear-gradient(130deg,#000 0%,transparent 78%);
+          mask-image:linear-gradient(130deg,#000 0%,transparent 78%);
+}
+.bg-dots--br{
+  color:var(--black-pure);opacity:.34;
+  clip-path:polygon(72% 62%, 100% 62%, 100% 100%, 60% 100%);
+  -webkit-mask-image:linear-gradient(310deg,#000 0%,transparent 78%);
+          mask-image:linear-gradient(310deg,#000 0%,transparent 78%);
+}
+
+/* ---------------------------------------------------------------
+   2. JUMP NAV — vertical, pinned to the right edge
+   --------------------------------------------------------------- */
+/* the vertical nav needs clearance from the fixed home icon */
+.jump{
+  position:fixed;z-index:30;
+  right:calc(var(--u) * 20);
+  top:50%;
+  transform:translateY(-50%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:calc(var(--u) * 16);
+}
+.jump ul{
+  display:flex;
+  flex-direction:column;
+  gap:calc(var(--u) * 12);
+}
+/* vertical-rl turns the plate on its side; the text still selects and
+   reads normally to a screen reader */
+.jump .nav-btn{
+  writing-mode:vertical-rl;
+  font-size:calc(var(--u) * 24);
+  padding:.8em .22em .8em .26em;
+  letter-spacing:.04em;
+}
+.jump .nav-btn span{transform:none}
+.jump .nav-btn:hover,
+.jump .nav-btn:focus-visible{
+  transform:skewX(var(--skew)) translate(calc(var(--u) * -4), 0);
+}
+/* active plate inverts to black-on-white rather than changing colour */
+.jump .nav-btn.is-active{
+  background:var(--black-pure);
+  color:var(--white-pure);
+  border-color:var(--white-pure);
+  outline:none;
+  box-shadow:var(--pop) var(--pop) 0 var(--white-pure);
+}
+.jump-home{
+  display:block;
+  width:calc(var(--u) * 54);
+  height:calc(var(--u) * 54);
+  transition:transform .09s steps(2);
+}
+.jump-home img{width:100%;height:100%;object-fit:contain}
+.jump-home:hover{transform:translateY(calc(var(--u) * -3)) rotate(-3deg)}
+
+/* ---------------------------------------------------------------
+   3. PAGE HEAD
+   --------------------------------------------------------------- */
+.works{
+  position:relative;z-index:5;
+  max-width:calc(var(--u) * 1360);
+  /* the vertical nav sits in the right margin — this keeps the content
+     optically centred rather than centred under the nav */
+  margin:0 auto;
+  padding:calc(var(--u) * 30) calc(var(--u) * 120) calc(var(--u) * 70)
+          calc(var(--u) * 30);
+}
+
+.works-head{
+  position:relative;
+  text-align:center;
+  padding:calc(var(--u) * 60) 0 calc(var(--u) * 70);
+}
+.works-head h1{
+  /* block + max-content = stacks vertically but still shrink-wraps to
+     the text, so the plate isn't full width. inline-block would let
+     the subtitle ride up onto the same line. */
+  display:block;
+  width:max-content;
+  max-width:100%;
+  margin:0 auto;
+  position:relative;z-index:1;
+  background:var(--white-pure);
+  color:var(--black-pure);
+  font-family:var(--f-display);
+  font-size:calc(var(--u) * 130);
+  font-weight:400;
+  line-height:1;
+  letter-spacing:.01em;
+  text-transform:uppercase;
+  padding:.06em .3em .12em;
+  transform:skewX(var(--skew)) rotate(-1.4deg);
+  box-shadow:var(--pop) var(--pop) 0 var(--black-pure);
+}
+.works-head h1 span{display:block;transform:skewX(calc(var(--skew) * -1))}
+
+/* the subtitle tucks up under the title rather than sitting apart,
+   so the two read as one stacked block */
+.works-sub{
+  display:block;
+  width:max-content;
+  max-width:100%;
+  margin:calc(var(--u) * -14) auto 0;
+  position:relative;z-index:2;
+  background:var(--black-pure);
+  color:var(--white);
+  font-size:calc(var(--u) * 22);
+  font-weight:600;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  padding:.5em 1.1em;
+  transform:skewX(var(--skew)) rotate(.8deg);
+}
+.works-sub span{display:block;transform:skewX(calc(var(--skew) * -1))}
+
+/* scroll cue — label and chevron inside a plain black disc, sitting in
+   the left margin where the old note was */
+.scroll-cue{
+  position:absolute;
+  left:0;
+  top:calc(var(--u) * 40);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:calc(var(--u) * 7);
+  margin:0;
+  width:calc(var(--u) * 104);
+  height:calc(var(--u) * 104);
+  border-radius:50%;
+  background:var(--black-pure);
+  font-family:var(--f-text);
+  font-size:calc(var(--u) * 11);
+  font-weight:600;
+  line-height:1.25;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  text-align:center;
+  color:var(--white-pure);
+  pointer-events:none;
+}
+.scroll-cue svg{
+  width:calc(var(--u) * 13);
+  height:auto;
+  display:block;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:3.2;
+  stroke-linecap:square;
+  stroke-linejoin:miter;
+}
+.page-works .note{
+  margin:0;
+  font-family:var(--f-hand);
+  font-size:calc(var(--u) * 20);
+  line-height:1.35;
+  color:var(--white-pure);
+  pointer-events:none;
+}
+
+/* ---------------------------------------------------------------
+   4. SECTION BAND
+   --------------------------------------------------------------- */
+.band{
+  position:relative;
+  margin-bottom:calc(var(--u) * 70);
+  scroll-margin-top:calc(var(--u) * 110);
+}
+
+.band-head{
+  display:flex;
+  align-items:center;
+  gap:calc(var(--u) * 18);
+  margin-bottom:calc(var(--u) * 24);
+}
+/* .band-num is no longer rendered — the 01/02/03 badges were removed.
+   The num: fields are still in works-data.js. */
+.band-title{
+  margin:0;
+  background:var(--white-pure);
+  color:var(--black-pure);
+  font-family:var(--f-display);
+  font-size:calc(var(--u) * 54);
+  font-weight:400;
+  line-height:1;
+  text-transform:uppercase;
+  padding:.1em .38em .16em;
+  transform:skewX(var(--skew)) rotate(-1.2deg);
+  box-shadow:var(--pop) var(--pop) 0 var(--black-pure);
+}
+.band-title span{display:block;transform:skewX(calc(var(--skew) * -1))}
+
+.band-blurb{
+  flex:1;
+  margin:0;
+  font-size:calc(var(--u) * 19);
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  color:var(--white);
+}
+/* the rule that trails off after the blurb */
+.band-blurb::after{
+  content:"";
+  display:block;
+  height:calc(var(--u) * 2);
+  margin-top:calc(var(--u) * 8);
+  background:var(--white-pure);
+  opacity:.5;
+}
+
+/* ---------------------------------------------------------------
+   5. SHOWCASE BLOCK
+   The panel is drawn with two pseudo-elements rather than a border:
+   ::before is the white keyline shape, ::after is the black inner
+   inset a few pixels. A real border would be sliced off by clip-path
+   along every angled edge.
+
+   Three variants cycle down the page (nth-of-type 3n+1/2/3) so no two
+   neighbouring blocks share a silhouette.
+   --------------------------------------------------------------- */
+.show{
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(0, calc(var(--u) * 330)) minmax(0, 1fr);
+  gap:calc(var(--u) * 26);
+  align-items:start;
+  margin-bottom:calc(var(--u) * 38);
+  padding:calc(var(--u) * 26);
+  background:transparent;
+  transform:rotate(var(--lean, 0deg));
+}
+
+.show::before,
+.show::after{
+  content:"";
+  position:absolute;
+  clip-path:var(--cut);
+  z-index:0;
+}
+.show::before{
+  inset:0;
+  background:var(--white-pure);
+}
+.show::after{
+  inset:calc(var(--u) * 4);
+  background:var(--black);
+}
+
+/* content rides above both panel layers */
+.show-info,
+.show-media{position:relative;z-index:1}
+
+/* --- variant A --- */
+.show:nth-of-type(3n+1){
+  --cut:polygon(0 2%, 96% 0, 100% 9%, 99% 100%, 4% 97%, 0 88%);
+  --lean:-.35deg;
+}
+/* --- variant B --- */
+.show:nth-of-type(3n+2){
+  --cut:polygon(2% 0, 100% 3%, 97% 91%, 94% 100%, 0 96%, 1% 7%);
+  --lean:.45deg;
+}
+/* --- variant C --- */
+.show:nth-of-type(3n+3){
+  --cut:polygon(0 0, 93% 0, 100% 7%, 100% 93%, 7% 100%, 0 86%);
+  --lean:-.2deg;
+}
+
+/* ---- left column ---- */
+.show-title{
+  margin:0 0 calc(var(--u) * 12);
+  text-align:center;
+  font-family:var(--f-display);
+  font-size:calc(var(--u) * 40);
+  font-weight:400;
+  line-height:1.02;
+  text-transform:uppercase;
+}
+.show-title-main  {display:block;color:var(--white-pure)}
+.show-title-accent{display:block;color:var(--red-hot)}
+
+/* ---- tags row, under the description — same treatment as the skills
+   row on the About page: one line, scrolls sideways, arrows appear
+   only when there are more tags than fit ---- */
+.tags-wrap{
+  position:relative;z-index:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:calc(var(--u) * 10);
+  /* inset from the column edges, and pulled up toward the panel */
+  margin:calc(var(--u) * -8) calc(var(--u) * 14) 0;
+}
+
+.show-tags{
+  flex:0 1 auto;
+  min-width:0;
+  position:relative;
+  display:flex;
+  flex-wrap:nowrap;
+  gap:calc(var(--u) * 10);
+  overflow-x:auto;
+  scroll-behavior:smooth;
+  scroll-snap-type:x mandatory;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+.show-tags::-webkit-scrollbar{width:0;height:0;display:none}
+
+.show-tags li{
+  flex:none;
+  scroll-snap-align:start;
+  border:calc(var(--u) * 2) solid var(--white-pure);
+  color:var(--white);
+  font-size:calc(var(--u) * 16);
+  font-weight:600;
+  letter-spacing:.03em;
+  white-space:nowrap;
+  padding:calc(var(--u) * 7) calc(var(--u) * 16);
+}
+
+.tags-arrow{
+  flex:none;
+  display:none;
+  width:calc(var(--u) * 22);
+  height:calc(var(--u) * 30);
+  padding:0;border:0;background:transparent;
+  cursor:pointer;
+  transform:var(--tf);
+  transition:transform .09s steps(2), opacity .12s linear;
+}
+.tags-arrow svg{width:100%;height:100%;display:block}
+/* usable = white, unusable = grey */
+.tags-arrow polygon{fill:var(--white-pure);transition:fill .09s steps(2)}
+.tags-arrow--prev{--tf:skewX(var(--skew)) rotate(-5deg)}
+.tags-arrow--next{--tf:skewX(calc(var(--skew) * -1)) rotate(4deg)}
+.tags-wrap.is-scrollable .tags-arrow{display:block}
+.tags-arrow:disabled{cursor:default}
+.tags-arrow:disabled polygon{fill:#5c5c5c}
+
+/* ---- info box: the description in a tilted panel, drawn the same way
+   as the .show panel — white keyline shape underneath, black inner
+   inset on top. A real border can't be used because clip-path would
+   slice it off along the slanted edges. The tags row sits BELOW this,
+   outside the panel. ---- */
+.info-box{
+  --box-cut:polygon(1% 2%, 96% 5%, 90% 96%, 4% 90%);
+  position:relative;
+  margin-bottom:calc(var(--u) * 20);
+  padding:calc(var(--u) * 26) calc(var(--u) * 34) calc(var(--u) * 30)
+          calc(var(--u) * 28);
+  transform:rotate(-.8deg);
+}
+.info-box::before,
+.info-box::after{
+  content:"";
+  position:absolute;
+  clip-path:var(--box-cut);
+  z-index:0;
+}
+.info-box::before{inset:0;background:var(--white-pure)}
+.info-box::after{inset:calc(var(--u) * 3);background:var(--black)}
+
+.desc-wrap{position:relative;z-index:1}
+
+/* the scrolling description. The panel border lives on .info-box now,
+   so this is just the scroll region. */
+.desc-wrap{
+  display:flex;
+  height:calc(var(--u) * 240);
+  margin:0;
+}
+
+.show-desc{
+  flex:1 1 auto;
+  min-height:0;
+  margin:0;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  padding-right:calc(var(--u) * 22);
+  font-size:calc(var(--u) * 19);
+  line-height:1.55;
+  color:var(--white);
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+.show-desc::-webkit-scrollbar{width:0;height:0;display:none}
+
+/* spacing between description paragraphs */
+.show-desc p{margin:0 0 calc(var(--u) * 16)}
+.show-desc p:last-child{margin-bottom:0}
+
+/* inline colour markup — used as [yellow]Teleportation[/] in the
+   description field in works-data.js */
+.tint{font-weight:700}
+.tint--yellow{color:#F2C14E}
+.tint--red   {color:#ff1d47}
+.tint--violet{color:#f01eff}
+.tint--white {color:var(--white-pure)}
+
+.desc-scroll{
+  position:absolute;
+  right:0;
+  top:0;
+  bottom:0;
+  width:calc(var(--u) * 12);
+  opacity:0;
+  transition:opacity .15s linear;
+}
+.desc-scroll.is-live{opacity:1}
+
+.desc-thumb{
+  position:absolute;
+  left:calc(var(--u) * -8);
+  right:0;
+  top:0;height:30%;
+  background:var(--white-pure);
+  clip-path:polygon(0 0, 100% 12%, 100% 100%, 54% 88%);
+  cursor:grab;
+  transform:skewX(calc(var(--skew) * 0.4));
+}
+.desc-thumb:active{cursor:grabbing}
+
+/* .show-meta is no longer rendered — the role/engine/year table was
+   removed. The data is still in works-data.js if you want it back. */
+
+/* the CTA and its note are lifted out of the left column and pinned to
+   the bottom right of the whole block */
+.cta-hold{
+  position:absolute;
+  right:calc(var(--u) * -20);
+  bottom:calc(var(--u) * -10);
+  z-index:2;
+  display:flex;
+  align-items:center;
+  gap:calc(var(--u) * 10);
+}
+
+/* handwritten aside with an arrow pointing down at the button.
+   Text comes from the `note:` field in works-data.js — delete that
+   field on an entry to hide it. */
+.cta-note{
+  position:absolute;
+  right:calc(var(--u) * 55);
+  bottom:100%;
+  margin-bottom:calc(var(--u) * 2);
+  display:flex;
+  flex-direction:column;   /* text on top, arrow beneath it */
+  align-items:center;
+  gap:calc(var(--u) * 10);
+  font-family:var(--f-hand);
+  font-size:calc(var(--u) * 12);
+  line-height:1.2;
+  white-space:nowrap;
+  color:var(--white-pure);
+  transform:rotate(-4deg);
+  pointer-events:none;
+}
+/* nudge just the wording, leaving the arrow where it is */
+.cta-note-text{
+  display:block;
+  text-align:center;
+  transform:translateX(calc(var(--u) * -6));
+}
+
+.cta-note-arrow{
+  width:calc(var(--u) * 30);
+  height:auto;
+  display:block;
+}
+
+.show-cta{
+  position:relative;
+  display:inline-flex;align-items:center;
+  gap:calc(var(--u) * 14);
+  background:var(--white-pure);
+  color:var(--black-pure);
+  font-family:var(--f-display);
+  font-size:calc(var(--u) * 24);
+  letter-spacing:.03em;
+  text-transform:uppercase;
+  padding:.26em .9em .3em;
+  border:calc(var(--u) * 3) solid var(--black-pure);
+  transform:skewX(var(--skew)) rotate(-1.4deg);
+  box-shadow:var(--pop) var(--pop) 0 var(--black-pure);
+  transition:transform .09s steps(2), box-shadow .09s steps(2),
+             background .09s steps(2), color .09s steps(2);
+}
+.show-cta > *{transform:skewX(calc(var(--skew) * -1))}
+.show-cta-arrow{width:calc(var(--u) * 20);height:auto;fill:currentColor}
+.show-cta:hover,.show-cta:focus-visible{
+  background:var(--black-pure);
+  color:var(--white-pure);
+  border-color:var(--white-pure);
+  transform:skewX(var(--skew)) rotate(-1.4deg)
+            translate(calc(var(--u) * -4), calc(var(--u) * -4));
+  box-shadow:calc(var(--u) * 13) calc(var(--u) * 13) 0 var(--white-pure);
+}
+
+/* ---- right column ---- */
+/* nudged down so the media clears the title line, and again to leave
+   room for the CTA pinned below it */
+.show-media{position:relative;margin-top:calc(var(--u) * 54)}
+
+.stage-hold{position:relative}
+
+.stage-frame{
+  position:relative;
+  aspect-ratio:16/9;
+  max-height:calc(var(--u) * 340);
+  margin:0 auto;
+  background:#111;
+  border:calc(var(--u) * 3) solid var(--white-pure);
+  overflow:hidden;
+}
+.stage-frame .shot-slot,
+.stage-frame img,
+.stage-frame-video{width:100%;height:100%;display:block;border:0}
+/* contain, not cover: the whole image fits inside the frame instead of
+   being cropped to fill it. Portrait and square artwork keeps its
+   edges; the leftover space reads as a dark mat around the picture. */
+.stage-frame img{object-fit:contain;object-position:center}
+
+/* placeholder shown when an asset isn't there yet */
+.shot-slot{position:relative;background:#161616}
+.shot-slot.is-missing::after{
+  content:attr(data-label);
+  position:absolute;inset:0;
+  display:grid;place-items:center;
+  padding:1em;
+  text-align:center;
+  font-family:var(--f-text);
+  font-size:calc(var(--u) * 16);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.42);
+  background:
+    repeating-linear-gradient(-45deg,#141414 0 10px,#191919 10px 20px);
+}
+
+.stage-video{position:relative;width:100%;height:100%}
+.stage-play{
+  position:absolute;inset:0;margin:auto;
+  width:calc(var(--u) * 96);height:calc(var(--u) * 96);
+  padding:0;border:0;background:transparent;cursor:pointer;
+  transition:transform .1s steps(2);
+}
+.stage-play svg{width:100%;height:100%}
+.stage-play circle{fill:var(--red-hot)}
+.stage-play polygon{fill:var(--white-pure)}
+.stage-play:hover{transform:scale(1.08)}
+
+.stage-arrow{
+  position:absolute;top:50%;
+  width:calc(var(--u) * 34);height:calc(var(--u) * 44);
+  padding:0;border:0;background:transparent;cursor:pointer;
+  transform:var(--tf);
+  transition:transform .09s steps(2);
+  z-index:2;
+}
+.stage-arrow svg{width:100%;height:100%;display:block}
+.stage-arrow polygon{fill:var(--white-pure);transition:fill .09s steps(2)}
+.stage-arrow:disabled{cursor:default}
+.stage-arrow:disabled polygon{fill:#5c5c5c}
+.stage-arrow--prev{left:calc(var(--u) * 20);
+  --tf:translateY(-50%) skewX(var(--skew)) rotate(-5deg)}
+.stage-arrow--next{right:calc(var(--u) * 20);
+  --tf:translateY(-50%) skewX(calc(var(--skew) * -1)) rotate(4deg)}
+.stage-arrow--next:hover{transform:var(--tf) translateX(calc(var(--u) * 4))}
+.stage-arrow--prev:hover{transform:var(--tf) translateX(calc(var(--u) * -4))}
+
+/* ---- dots ---- */
+.show-dots{
+  display:flex;
+  justify-content:center;
+  gap:calc(var(--u) * 12);
+  margin-top:calc(var(--u) * 16);
+}
+.show-dots li{flex:none}
+.show-dots button{
+  display:block;
+  width:calc(var(--u) * 13);
+  height:calc(var(--u) * 13);
+  padding:0;
+  border:0;
+  border-radius:50%;
+  background:rgba(255,255,255,.34);
+  cursor:pointer;
+  transition:background .1s steps(2), transform .1s steps(2);
+}
+.show-dots button:hover{transform:scale(1.25)}
+.show-dots .is-active button{background:var(--white-pure)}
+
+/* .show-note is no longer rendered — the handwritten corner captions
+   were removed. The note: fields are still in works-data.js. */
+
+/* ---------------------------------------------------------------
+   6. FOOT
+   --------------------------------------------------------------- */
+.works-foot{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:calc(var(--u) * 30);
+  padding-top:calc(var(--u) * 30);
+}
+.works-elsewhere{display:flex;gap:calc(var(--u) * 16)}
+.works-elsewhere li:nth-child(1){--tilt:-2deg;--slide:0}
+.works-elsewhere li:nth-child(2){--tilt:1.5deg;--slide:0}
+.works-elsewhere .nav-btn{font-size:calc(var(--u) * 26);padding:.2em .8em .24em}
+
+/* ---------------------------------------------------------------
+   7. MOBILE
+   --------------------------------------------------------------- */
+@media (max-width:860px){
+  .page-works{--u:1px}
+
+  .works{padding:1rem .9rem 3rem}
+
+  .jump{
+    top:auto;bottom:0;left:0;right:0;
+    transform:none;
+    flex-direction:row;
+    justify-content:center;
+    gap:.5rem;
+    padding:.5rem;
+    background:rgba(0,0,0,.86);
+  }
+  .jump ul{flex-direction:row;gap:.4rem}
+  .jump .nav-btn{writing-mode:horizontal-tb;font-size:.95rem;padding:.2em .8em .24em}
+  .jump-home{width:34px;height:34px}
+
+  .works-head{padding:2rem 0 2.5rem}
+  .works-head h1{font-size:clamp(2.6rem,15vw,4.4rem)}
+  .works-sub{font-size:.72rem}
+  .scroll-cue{position:static;margin:1.6rem auto 0;font-size:.62rem;
+              width:82px;height:82px}
+  .scroll-cue svg{width:15px}
+
+  .band{margin-bottom:2.5rem;scroll-margin-top:1rem}
+  .band-head{flex-wrap:wrap;gap:.6rem}
+  .band-title{font-size:1.9rem}
+  .band-blurb{flex:1 0 100%;font-size:.78rem}
+
+  .show{
+    grid-template-columns:1fr;
+    gap:1.2rem;
+    padding:1rem 1rem 1.4rem;
+    transform:none;          /* no lean on a narrow screen */
+  }
+  .show::after{inset:2px}
+  .show-title{font-size:1.6rem}
+  .info-box{padding:.9rem;transform:none;margin-bottom:.9rem}
+  .info-box::after{inset:2px}
+  .desc-wrap{height:auto}
+  .show-desc{overflow:visible;padding-right:0;font-size:.95rem}
+  .desc-scroll{display:none}
+  .show-tags li{font-size:.85rem;padding:.35rem .8rem;border-width:2px}
+  .tags-arrow{width:18px;height:24px}
+  .tags-wrap{margin:0}
+  .cta-hold{position:static;margin-top:1.6rem}
+  .cta-note{font-size:.72rem;right:0}
+  .cta-note-arrow{width:26px}
+  .show-cta{font-size:1.1rem}
+
+  /* arrows move inside the frame — there's no margin to sit in */
+  .stage-arrow{width:26px;height:34px}
+  .stage-arrow--prev{left:.4rem}
+  .stage-arrow--next{right:.4rem}
+  .stage-play{width:58px;height:58px}
+
+  .show-media{margin-top:0}
+  .show-dots button{width:10px;height:10px}
+
+  .works-foot{flex-direction:column;align-items:flex-start;gap:1.2rem;
+              padding-bottom:4rem}
+  .works-elsewhere .nav-btn{font-size:1.05rem}
+
+  /* lift the home icon clear of the fixed jump bar along the bottom */
+  .page-works .home-link{bottom:3.4rem;right:.5rem}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .page-works *{transition-duration:.01ms !important}
+}

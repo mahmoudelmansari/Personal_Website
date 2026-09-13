@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Works — Mahmoud Elmansari</title>
+<meta name="description" content="Games, videos and art by Mahmoud Elmansari. Unity projects, game development tutorials and visual work.">
+
+<meta property="og:title" content="Works — Mahmoud Elmansari">
+<meta property="og:description" content="Games. Videos. Art. Ideas in motion.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Semi+Condensed:wght@400;500;600;700&family=Caveat:wght@600;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/works.css">
+</head>
+
+<body class="page-works">
+
+<!-- =================================================================
+     BACKGROUND — fixed, fills the window, scrolls nothing
+     ================================================================= -->
+<div class="bg" aria-hidden="true">
+  <div class="bg-red"></div>
+  <div class="bg-dots bg-dots--tl"></div>
+  <div class="bg-dots bg-dots--br"></div>
+  <div class="bg-slash-a"></div>
+  <div class="bg-slash-b"></div>
+</div>
+
+<!-- =================================================================
+     STICKY JUMP NAV
+     ================================================================= -->
+<nav class="jump" aria-label="Jump to section">
+  <ul id="jumpList"><!-- built by works.js --></ul>
+</nav>
+
+<!-- =================================================================
+     PAGE
+     ================================================================= -->
+<main class="works">
+
+  <header class="works-head">
+    <h1><span>Works</span></h1>
+    <p class="works-sub"><span>Games. Videos. Art. Ideas in motion.</span></p>
+
+    <p class="scroll-cue" aria-hidden="true">
+      <span>Scroll<br>Down</span>
+      <svg viewBox="0 0 24 56">
+        <line x1="12" y1="0" x2="12" y2="26"/>
+        <polyline points="3,38 12,50 21,38"/>
+      </svg>
+    </p>
+  </header>
+
+  <div id="sections"><!-- built by works.js --></div>
+
+  <footer class="works-foot">
+    <ul class="works-elsewhere">
+      <li><a class="nav-btn" href="about.html"><span>About</span></a></li>
+      <li><a class="nav-btn" href="contact.html"><span>Contact</span></a></li>
+    </ul>
+  </footer>
+
+</main>
+
+<!-- home, bottom right — same place as every other page -->
+<a class="home-link" href="index.html" aria-label="Back to home">
+  <img src="General%20Asset/House_Icon_Persona.png" alt="">
+</a>
+
+<script src="js/works-data.js"></script>
+<script src="js/works.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

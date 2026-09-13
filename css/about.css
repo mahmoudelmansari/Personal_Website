@@ -370,27 +370,11 @@
 
 /* ---------------------------------------------------------------
    6. HOME LINK
-   Uses the shared sprite in General Asset/.
-
-   position:fixed, NOT absolute. The 1600x900 frame is centred and
-   letterboxed, so anything anchored to the frame drifts away from the
-   screen corner as the window's aspect ratio changes. Fixed pins it to
-   the window instead; --u still scales the size with everything else.
+   Now lives in style.css section 9b, shared by About, Contact and
+   Works so all three stay in the same corner position. Edit it there,
+   or add a .page-about .home-link override here to change this page
+   alone.
    --------------------------------------------------------------- */
-.home-link{
-  position:fixed;z-index:20;
-  right:calc(var(--u) * 0);
-  bottom:calc(var(--u) * 0);
-  width:calc(var(--u) * 82);
-  height:calc(var(--u) * 82);
-  display:block;
-  transition:transform .09s steps(2), filter .09s steps(2);
-}
-.home-link img{width:100%;height:100%;object-fit:contain}
-
-.home-link:hover,.home-link:focus-visible{
-  transform:translateY(calc(var(--u) * -4)) rotate(-3deg);
-}
 
 /* ---------------------------------------------------------------
    7. ENTRANCE
@@ -455,11 +439,7 @@ body.page-about.is-ready .shot    {animation:slam-right .5s cubic-bezier(.2,.9,.
   .shot-frame{height:auto}
   .shot-frame img{height:auto}
 
-  .home-link{
-    position:fixed;z-index:20;
-    right:1rem;bottom:1rem;
-    width:44px;height:44px;
-  }
+  /* home-link mobile sizing lives in style.css */
 
   /* background reshaped for a portrait window */
   .page-about .bg-red{clip-path:polygon(0 0,100% 0,100% 34%,0 46%)}

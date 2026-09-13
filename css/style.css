@@ -430,9 +430,9 @@ a{text-decoration:none;color:inherit}
    window's aspect ratio changes. --u still scales the size.
    --------------------------------------------------------------- */
 .home-link{
-  position:fixed;z-index:20;
-  right:calc(var(--u) * 30);
-  bottom:calc(var(--u) * 24);
+  position:fixed;z-index:40;
+  right:calc(var(--u) * 0);
+  bottom:calc(var(--u) * 0);
   width:calc(var(--u) * 82);
   height:calc(var(--u) * 82);
   display:block;
