@@ -15,8 +15,10 @@
   overflow-y:auto;
 }
 
-/* the shared reset locks the body; this page needs to scroll */
-body.page-works{overflow:auto;height:auto;min-height:100%}
+/* the shared reset locks the body; this page needs to scroll.
+   overflow-x stays hidden — a single shorthand here would reset it to
+   auto and give the page a stray horizontal scrollbar. */
+body.page-works{overflow-x:hidden;overflow-y:auto;height:auto;min-height:100%}
 
 /* ---------------------------------------------------------------
    1. BACKGROUND — fixed behind the scrolling content
@@ -159,6 +161,7 @@ body.page-works{overflow:auto;height:auto;min-height:100%}
   text-transform:uppercase;
   padding:.5em 1.1em;
   transform:skewX(var(--skew)) rotate(.8deg);
+  
 }
 .works-sub span{display:block;transform:skewX(calc(var(--skew) * -1))}
 
@@ -295,9 +298,12 @@ body.page-works{overflow:auto;height:auto;min-height:100%}
   background:var(--black);
 }
 
-/* content rides above both panel layers */
+/* content rides above both panel layers.
+   min-width:0 lets these grid items shrink below their content width —
+   without it a long word or a wide media frame pushes the whole block
+   past the viewport. */
 .show-info,
-.show-media{position:relative;z-index:1}
+.show-media{position:relative;z-index:1;min-width:0;max-width:100%}
 
 /* --- variant A --- */
 .show:nth-of-type(3n+1){
@@ -429,6 +435,7 @@ body.page-works{overflow:auto;height:auto;min-height:100%}
   padding-right:calc(var(--u) * 22);
   font-size:calc(var(--u) * 19);
   line-height:1.55;
+  overflow-wrap:break-word;
   color:var(--white);
   scrollbar-width:none;
   -ms-overflow-style:none;
@@ -660,8 +667,11 @@ body.page-works{overflow:auto;height:auto;min-height:100%}
 
 /* ---------------------------------------------------------------
    7. MOBILE
+   Breakpoint is 1024px, not 860. Between those two widths the desktop
+   two-column grid squeezes the media frame and the block overflows the
+   window — stacking earlier avoids it.
    --------------------------------------------------------------- */
-@media (max-width:860px){
+@media (max-width:1024px){
   .page-works{--u:1px}
 
   .works{padding:1rem .9rem 3rem}
@@ -699,17 +709,43 @@ body.page-works{overflow:auto;height:auto;min-height:100%}
   }
   .show::after{inset:2px}
   .show-title{font-size:1.6rem}
-  .info-box{padding:.9rem;transform:none;margin-bottom:.9rem}
+
+  /* the desktop clip cuts in to 90% on the right, which the text then
+     runs past. A near-rectangular shape keeps the panel readable at
+     this width. */
+  .info-box{
+    --box-cut:polygon(0 1%, 100% 0, 99% 99%, 1% 100%);
+    padding:1rem 1.1rem 1.1rem;
+    transform:none;
+    margin-bottom:.9rem;
+  }
   .info-box::after{inset:2px}
   .desc-wrap{height:auto}
   .show-desc{overflow:visible;padding-right:0;font-size:.95rem}
   .desc-scroll{display:none}
   .show-tags li{font-size:.85rem;padding:.35rem .8rem;border-width:2px}
   .tags-arrow{width:18px;height:24px}
-  .tags-wrap{margin:0}
-  .cta-hold{position:static;margin-top:1.6rem}
-  .cta-note{font-size:.72rem;right:0}
-  .cta-note-arrow{width:26px}
+  .tags-wrap{margin:0;max-width:100%}
+
+  /* the note sits above the button in normal flow here — absolute
+     positioning against the block pushed it off the right edge */
+  .cta-hold{
+    position:static;
+    margin-top:1.2rem;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:.5rem;
+  }
+  .cta-note{
+    position:static;
+    flex-direction:row;
+    align-items:center;
+    gap:.4rem;
+    margin:0;
+    font-size:.72rem;
+  }
+  .cta-note-text{transform:none}
+  .cta-note-arrow{width:26px;transform:rotate(-90deg)}
   .show-cta{font-size:1.1rem}
 
   /* arrows move inside the frame — there's no margin to sit in */
@@ -718,6 +754,7 @@ body.page-works{overflow:auto;height:auto;min-height:100%}
   .stage-arrow--next{right:.4rem}
   .stage-play{width:58px;height:58px}
 
+  .stage-frame{max-height:none}
   .show-media{margin-top:0}
   .show-dots button{width:10px;height:10px}
 

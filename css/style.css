@@ -74,6 +74,11 @@
    --------------------------------------------------------------- */
 *,*::before,*::after{box-sizing:border-box}
 html,body{margin:0;padding:0;height:100%}
+/* the skewed plates and their hard shadows sit slightly outside their
+   boxes. Without this the page picks up a sideways scrollbar and the
+   composition can be dragged off-centre. html matters as much as body:
+   if only body is clipped, html still scrolls. */
+html{overflow-x:hidden}
 html{-webkit-text-size-adjust:100%}
 
 body{

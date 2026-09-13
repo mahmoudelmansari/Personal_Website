@@ -399,27 +399,47 @@ body.page-about.is-ready .shot    {animation:slam-right .5s cubic-bezier(.2,.9,.
    8. MOBILE — the frame is switched off by style.css below 760px,
    so everything here just needs to flow.
    --------------------------------------------------------------- */
+/* keep a stray pixel of overhang from giving the page a sideways
+   scrollbar — the skewed plates and their hard shadows sit slightly
+   outside their boxes */
+body.page-about{overflow-x:hidden}
 @media (max-width:760px){
   .page-about .stage{position:static;display:contents}
 
-  .intro,.panel,.discover,.cv,.shot{position:static;width:auto}
+  /* belt and braces: nothing inside the flowing layout may be wider
+     than the window */
+  .page-about .frame{max-width:100%;overflow-x:clip}
+
+  .intro,.panel,.discover,.cv,.shot{position:static;width:auto;max-width:100%}
 
   .intro{margin-bottom:1.5rem}
   .intro-hi{margin-left:0}
   .intro-hi span{font-size:1.5rem}
   .intro-name{margin-left:1.5rem;font-size:2.6rem}
-  .intro-roles{flex-wrap:wrap;gap:.6rem}
-  .role-plate{font-size:1.1rem}
+  .intro-roles{flex-wrap:wrap;gap:.6rem;max-width:100%}
+  .role-plate{font-size:1.1rem;max-width:100%}
+  .intro-hi span{max-width:100%}
 
-  .panel{width:100%;height:auto}
-  .panel-inner{margin:3px;padding:1.4rem 1.2rem}
-  .bio-wrap{display:block;margin-right:0}
-  .bio{font-size:1rem;overflow:visible;padding-right:0;max-height:none}
+  /* the desktop clip cuts in to 90% on the right, which the bio text
+     then runs past at full width. A near-rectangular shape keeps the
+     panel readable here. */
+  .panel{
+    width:100%;height:auto;
+    clip-path:polygon(0 1%, 100% 0, 99% 99%, 1% 100%);
+  }
+  .panel-inner{
+    margin:3px;
+    padding:1.3rem 1.2rem;
+    clip-path:polygon(0 1%, 100% 0, 99% 99%, 1% 100%);
+  }
+  .bio-wrap{display:block;margin-right:0;min-width:0}
+  .bio{font-size:1rem;overflow:visible;padding-right:0;max-height:none;
+       overflow-wrap:break-word}
   .bio-scroll{display:none}
-  .skills-head{margin-right:0}
   .bio p{margin-bottom:.9rem}
   .skills-head{font-size:1rem;margin:1.4rem 0 .8rem;gap:.7rem}
-  .skills{gap:.5rem;flex-wrap:nowrap}
+  .skills-wrap{max-width:100%}
+  .skills{gap:.5rem;flex-wrap:nowrap;min-width:0}
   .skills li{font-size:.85rem;padding:.35rem .8rem;border-width:2px}
   .skills-arrow{width:24px;height:32px}
 
