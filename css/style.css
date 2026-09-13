@@ -453,6 +453,34 @@ a{text-decoration:none;color:inherit}
 }
 
 /* ---------------------------------------------------------------
+   9d. CONTACT MORPH
+   The clicked CONTACT plate lifts out of the nav, spins and grows
+   toward the size of the contact card. The Contact page then picks
+   the motion up where this left off, so the plate appears to become
+   the card.
+   --------------------------------------------------------------- */
+.morph{
+  position:fixed;
+  z-index:210;
+  pointer-events:none;
+  transform-origin:50% 50%;
+  will-change:transform;
+}
+.morph .nav-btn{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+/* the wording fades as the plate becomes a slab — stretched text
+   would give the morph away */
+.morph .nav-btn span{
+  transition:opacity .18s linear;
+  opacity:0;
+}
+
+/* ---------------------------------------------------------------
    10. ENTRANCE — one sequence, then stillness
    --------------------------------------------------------------- */
 .identity > *,.nav li,.portrait,.note,.star{opacity:0}

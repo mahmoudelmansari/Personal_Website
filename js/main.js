@@ -7,6 +7,132 @@
   'use strict';
 
   /* -------------------------------------------------------------
+     PAGE TRANSITIONS
+     Only one navigation is animated: the CONTACT plate morphing into
+     the contact card. Every other link navigates normally.
+
+     Everything here is progressive — clicks are only intercepted when
+     the morph can actually run. If any of it fails, links work.
+     ------------------------------------------------------------- */
+  var calm = window.matchMedia &&
+             window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Did we arrive here from the CONTACT plate morph? If so the card
+     picks the motion up instead of playing its usual entrance. */
+  var MORPH_KEY = 'morph:contact';
+  var arrivedByMorph = false;
+  try {
+    arrivedByMorph = sessionStorage.getItem(MORPH_KEY) === '1';
+    if (arrivedByMorph) sessionStorage.removeItem(MORPH_KEY);
+  } catch (err) { /* private mode: fall back to the normal entrance */ }
+
+  if (arrivedByMorph) document.body.classList.add('from-morph');
+
+  /* which clicks should NOT be intercepted */
+  function plainNavigation(e, a) {
+    if (e.defaultPrevented) return false;
+    if (e.button !== 0) return false;                       // middle / right
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return false;
+    if (a.target && a.target !== '_self') return false;     // new tab
+    if (a.hasAttribute('download')) return false;
+    if (a.origin !== window.location.origin) return false;  // external
+
+    var href = a.getAttribute('href') || '';
+    if (href.charAt(0) === '#') return false;               // same-page anchor
+    if (/^(mailto|tel):/i.test(href)) return false;
+
+    // a link to this same page, differing only by hash, is a jump not a nav
+    if (a.pathname === window.location.pathname && a.hash) return false;
+
+    return true;
+  }
+
+  /* -------------------------------------------------------------
+     The CONTACT plate morph.
+     Clones the clicked plate, lifts it out of the nav, and spins it
+     up to roughly the card's size at the centre of the screen. The
+     Contact page continues from there.
+     Returns true if it took over the navigation.
+     ------------------------------------------------------------- */
+  function morphToContact(plate, url) {
+    if (!plate.animate) return false;          // no Web Animations API
+
+    var r = plate.getBoundingClientRect();
+    if (!r.width || !r.height) return false;
+
+    var holder = document.createElement('div');
+    holder.className = 'morph';
+    holder.style.left   = r.left + 'px';
+    holder.style.top    = r.top + 'px';
+    holder.style.width  = r.width + 'px';
+    holder.style.height = r.height + 'px';
+
+    var clone = plate.cloneNode(true);
+    clone.removeAttribute('href');
+    holder.appendChild(clone);
+    document.body.appendChild(holder);
+
+    var DUR = 620;
+
+    /* Scale until the plate covers the whole window. The 1.5 factor is
+       for the rotation: a spinning rectangle needs to be bigger than
+       the screen to cover its corners mid-turn. */
+    var cover = Math.max(window.innerWidth  / r.width,
+                         window.innerHeight / r.height) * 1.5;
+
+    var dx = (window.innerWidth  / 2) - (r.left + r.width  / 2);
+    var dy = (window.innerHeight / 2) - (r.top  + r.height / 2);
+
+    holder.animate([
+      { transform: 'translate(0,0) rotate(0deg) scale(1)' },
+      { transform: 'translate(' + (dx * 0.5) + 'px,' + (dy * 0.5) + 'px) ' +
+                   'rotate(-186deg) scale(' + (cover * 0.32) + ')', offset: 0.5 },
+      { transform: 'translate(' + dx + 'px,' + dy + 'px) ' +
+                   'rotate(-372deg) scale(' + cover + ')' }
+    ], {
+      duration: DUR,
+      easing: 'cubic-bezier(.5,0,.35,1)',
+      fill: 'forwards'
+    });
+
+    /* the plate turns black on the way, so by the time it fills the
+       window the screen is simply black and the swap is invisible */
+    clone.animate([
+      { backgroundColor: '#FFFFFF' },
+      { backgroundColor: '#000000', offset: 0.5 },
+      { backgroundColor: '#000000' }
+    ], { duration: DUR, easing: 'ease-in', fill: 'forwards' });
+
+    // the page itself steps back so the plate is the only thing moving
+    var stage = document.querySelector('.stage') || document.querySelector('.works');
+    if (stage && stage.animate) {
+      stage.animate(
+        [{ opacity: 1 }, { opacity: 0 }],
+        { duration: 300, easing: 'ease-in', fill: 'forwards' }
+      );
+    }
+
+    try { sessionStorage.setItem(MORPH_KEY, '1'); } catch (err) { /* ignore */ }
+
+    // navigate once the screen is fully covered
+    setTimeout(function () { window.location.href = url; }, DUR - 40);
+    return true;
+  }
+
+  if (!calm) {
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest ? e.target.closest('a[href]') : null;
+      if (!a || !plainNavigation(e, a)) return;
+
+      // only a nav plate pointing at Contact is animated
+      if (!a.classList.contains('nav-btn')) return;
+      if (!/contact\.html$/i.test(a.pathname)) return;
+
+      if (morphToContact(a, a.href)) e.preventDefault();
+    });
+  }
+
+  /* -------------------------------------------------------------
      Entrance sequence.
      CSS holds everything at opacity:0 until <body> gets .is-ready,
      so the page never flashes half-animated content. We wait for

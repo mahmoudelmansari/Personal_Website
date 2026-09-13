@@ -666,6 +666,42 @@ body.page-works{overflow-x:hidden;overflow-y:auto;height:auto;min-height:100%}
 .works-elsewhere .nav-btn{font-size:calc(var(--u) * 26);padding:.2em .8em .24em}
 
 /* ---------------------------------------------------------------
+   6b. ENTRANCE
+   The header hinges open from its bottom edge like a laptop lid,
+   then the sections rise in behind it.
+   --------------------------------------------------------------- */
+.page-works .works-head,
+.page-works .band,
+.page-works .works-foot{opacity:0}
+
+.page-works .works-head{
+  transform-origin:50% 100%;
+  will-change:transform;
+}
+
+@keyframes lid-open{
+  from{opacity:0; transform:perspective(1400px) rotateX(-84deg)}
+  70% {opacity:1; transform:perspective(1400px) rotateX(6deg)}
+  to  {opacity:1; transform:perspective(1400px) rotateX(0deg)}
+}
+
+body.page-works.is-ready .works-head{
+  animation:lid-open .72s cubic-bezier(.22,.78,.3,1) .05s forwards;
+}
+
+body.page-works.is-ready .band{
+  animation:fade-up .5s ease-out forwards;
+}
+body.page-works.is-ready .band:nth-of-type(1){animation-delay:.5s}
+body.page-works.is-ready .band:nth-of-type(2){animation-delay:.6s}
+body.page-works.is-ready .band:nth-of-type(3){animation-delay:.7s}
+body.page-works.is-ready .band:nth-of-type(n+4){animation-delay:.8s}
+
+body.page-works.is-ready .works-foot{
+  animation:fade-in .5s ease-out .9s forwards;
+}
+
+/* ---------------------------------------------------------------
    7. MOBILE
    Breakpoint is 1024px, not 860. Between those two widths the desktop
    two-column grid squeezes the media frame and the block overflows the
@@ -768,4 +804,7 @@ body.page-works{overflow-x:hidden;overflow-y:auto;height:auto;min-height:100%}
 
 @media (prefers-reduced-motion:reduce){
   .page-works *{transition-duration:.01ms !important}
+  .page-works .works-head,
+  .page-works .band,
+  .page-works .works-foot{opacity:1;animation:none !important;transform:none}
 }

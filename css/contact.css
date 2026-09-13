@@ -264,6 +264,8 @@
 
 /* ---------------------------------------------------------------
    8. ENTRANCE
+   The card is the page's centrepiece, so it gets the arrival: it
+   flies in from the right, overshoots slightly, and settles.
    --------------------------------------------------------------- */
 .page-contact .card,
 .page-contact .title,
@@ -271,11 +273,57 @@
 .page-contact .note,
 .page-contact .elsewhere{opacity:0}
 
+@keyframes card-fly{
+  from{opacity:0; transform:translateX(70%) rotate(-13deg) scale(.88)}
+  65% {opacity:1; transform:translateX(-2.5%) rotate(2.2deg) scale(1.015)}
+  to  {opacity:1; transform:none}
+}
+
 body.page-contact.is-ready .title    {animation:slam .45s cubic-bezier(.2,.9,.3,1) .05s forwards}
-body.page-contact.is-ready .card     {animation:fade-up .55s ease-out .16s forwards}
-body.page-contact.is-ready .flip     {animation:slam-right .4s cubic-bezier(.2,.9,.3,1) .34s forwards}
-body.page-contact.is-ready .elsewhere{animation:fade-up .45s ease-out .42s forwards}
-body.page-contact.is-ready .note     {animation:fade-in .5s ease-out .55s forwards}
+body.page-contact.is-ready .card     {animation:card-fly .68s cubic-bezier(.22,.8,.3,1) .12s forwards}
+body.page-contact.is-ready .flip     {animation:slam-right .4s cubic-bezier(.2,.9,.3,1) .46s forwards}
+body.page-contact.is-ready .elsewhere{animation:fade-up .45s ease-out .52s forwards}
+body.page-contact.is-ready .note     {animation:fade-in .5s ease-out .6s forwards}
+
+/* --- arriving from the CONTACT plate morph ---------------------
+   The plate spun up until it filled the window and turned black, so
+   the screen is already black when this page loads. The card starts
+   at that size and simply scales down into place — the swap between
+   documents happens while everything is covered.
+
+   The card is opaque from the first frame and doesn't wait for
+   .is-ready, otherwise there'd be a flash of the page underneath.
+
+   TUNING
+     --land-time   how long the card takes to scale down
+     --land-scale  how big it starts — must match `cover` in main.js,
+                   or you'll see a size jump at the swap
+     --land-tilt   starting angle — matches the -372deg the plate
+                   finished on, i.e. -12deg
+   The four animation-delay values below space out the rest of the
+   page; raise them together if you lengthen --land-time. */
+body.page-contact.from-morph{
+  --land-time:  .65s;
+  --land-scale: 4;
+  --land-tilt:  -12deg;
+}
+
+@keyframes card-land{
+  from{opacity:1; transform:rotate(var(--land-tilt)) scale(var(--land-scale))}
+  to  {opacity:1; transform:none}
+}
+
+body.page-contact.from-morph .card,
+body.page-contact.from-morph.is-ready .card{
+  opacity:1;
+  animation:card-land var(--land-time) cubic-bezier(.3,.85,.32,1) forwards;
+}
+
+/* everything else follows the card down rather than leading it */
+body.page-contact.from-morph.is-ready .title    {animation-delay:.34s}
+body.page-contact.from-morph.is-ready .flip     {animation-delay:.48s}
+body.page-contact.from-morph.is-ready .elsewhere{animation-delay:.54s}
+body.page-contact.from-morph.is-ready .note     {animation-delay:.6s}
 
 /* ---------------------------------------------------------------
    9. MOBILE
