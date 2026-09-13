@@ -150,10 +150,10 @@
     return true;
   }
 
-  /* which plates get a morph, and how they move */
+  /* Only Contact gets a morph. The other pages navigate normally and
+     play their own entrance animation on load, which is enough. */
   var MORPHS = [
-    { match: /contact\.html$/i, spin: -372, dur: 620 },   // spins into the card
-    { match: /about\.html$/i,   spin: 0,    dur: 520 }    // comes straight at you
+    { match: /contact\.html$/i, spin: -372, dur: 620 }
   ];
 
   if (!calm) {
