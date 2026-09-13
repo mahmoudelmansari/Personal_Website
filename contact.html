@@ -116,15 +116,16 @@
       </ul>
     </nav>
 
-    <!-- ---------- home ---------- -->
-    <a class="home-link" href="index.html" aria-label="Back to home">
-      <img src="General%20Asset/House_Icon_Persona.png" alt="">
-    </a>
-
   </main>
 
 </div>
 </div>
+
+<!-- home, outside the frame — a transformed ancestor would make
+     position:fixed resolve against the frame instead of the window -->
+<a class="home-link" href="index.html" aria-label="Back to home">
+  <img src="General%20Asset/House_Icon_Persona.png" alt="">
+</a>
 
 <script src="js/main.js"></script>
 </body>

@@ -17,9 +17,9 @@
   var calm = window.matchMedia &&
              window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* Did we arrive here from the CONTACT plate morph? If so the card
-     picks the motion up instead of playing its usual entrance. */
-  var MORPH_KEY = 'morph:contact';
+  /* Did we arrive from a plate morph? If so the page picks the motion
+     up instead of playing its usual entrance. */
+  var MORPH_KEY = 'morph:from';
   var arrivedByMorph = false;
   try {
     arrivedByMorph = sessionStorage.getItem(MORPH_KEY) === '1';
@@ -27,6 +27,35 @@
   } catch (err) { /* private mode: fall back to the normal entrance */ }
 
   if (arrivedByMorph) document.body.classList.add('from-morph');
+
+  /* Anything the morph leaves behind, so it can be cleared if the
+     visitor comes back to this page. */
+  var liveMorph = null;
+  var liveStageAnim = null;
+
+  /* Back/forward restores a page from the browser's cache exactly as
+     it was left — which for us means the overlay still covering the
+     screen and the content still faded to nothing, so the page looks
+     loaded but can't be clicked. Clear both on the way back in. */
+  function clearMorph() {
+    var leftovers = document.querySelectorAll('.morph');
+    for (var i = 0; i < leftovers.length; i++) {
+      if (leftovers[i].parentNode) {
+        leftovers[i].parentNode.removeChild(leftovers[i]);
+      }
+    }
+    liveMorph = null;
+
+    if (liveStageAnim) {
+      try { liveStageAnim.cancel(); } catch (err) { /* already gone */ }
+      liveStageAnim = null;
+    }
+  }
+
+  window.addEventListener('pageshow', function (e) {
+    if (e.persisted) clearMorph();
+  });
+  window.addEventListener('pagehide', clearMorph);
 
   /* which clicks should NOT be intercepted */
   function plainNavigation(e, a) {
@@ -48,13 +77,16 @@
   }
 
   /* -------------------------------------------------------------
-     The CONTACT plate morph.
-     Clones the clicked plate, lifts it out of the nav, and spins it
-     up to roughly the card's size at the centre of the screen. The
-     Contact page continues from there.
+     PLATE MORPH
+     Clones the clicked plate, lifts it out of the nav and grows it
+     until it covers the window, turning black on the way. By the time
+     the document swaps the screen is simply black, so the next page
+     can pick the motion up without a visible cut.
+
+     `spin` is how far it rotates on the way, in degrees.
      Returns true if it took over the navigation.
      ------------------------------------------------------------- */
-  function morphToContact(plate, url) {
+  function morphOut(plate, url, spin, dur) {
     if (!plate.animate) return false;          // no Web Animations API
 
     var r = plate.getBoundingClientRect();
@@ -66,19 +98,19 @@
     holder.style.top    = r.top + 'px';
     holder.style.width  = r.width + 'px';
     holder.style.height = r.height + 'px';
+    liveMorph = holder;
 
     var clone = plate.cloneNode(true);
     clone.removeAttribute('href');
     holder.appendChild(clone);
     document.body.appendChild(holder);
 
-    var DUR = 620;
-
-    /* Scale until the plate covers the whole window. The 1.5 factor is
-       for the rotation: a spinning rectangle needs to be bigger than
-       the screen to cover its corners mid-turn. */
+    /* Scale until the plate covers the whole window. The 1.5 factor
+       allows for the rotation: a turning rectangle has to be bigger
+       than the screen to cover its corners mid-spin. */
+    var slack = spin ? 1.5 : 1.15;
     var cover = Math.max(window.innerWidth  / r.width,
-                         window.innerHeight / r.height) * 1.5;
+                         window.innerHeight / r.height) * slack;
 
     var dx = (window.innerWidth  / 2) - (r.left + r.width  / 2);
     var dy = (window.innerHeight / 2) - (r.top  + r.height / 2);
@@ -86,27 +118,26 @@
     holder.animate([
       { transform: 'translate(0,0) rotate(0deg) scale(1)' },
       { transform: 'translate(' + (dx * 0.5) + 'px,' + (dy * 0.5) + 'px) ' +
-                   'rotate(-186deg) scale(' + (cover * 0.32) + ')', offset: 0.5 },
+                   'rotate(' + (spin / 2) + 'deg) scale(' + (cover * 0.32) + ')',
+        offset: 0.5 },
       { transform: 'translate(' + dx + 'px,' + dy + 'px) ' +
-                   'rotate(-372deg) scale(' + cover + ')' }
+                   'rotate(' + spin + 'deg) scale(' + cover + ')' }
     ], {
-      duration: DUR,
+      duration: dur,
       easing: 'cubic-bezier(.5,0,.35,1)',
       fill: 'forwards'
     });
 
-    /* the plate turns black on the way, so by the time it fills the
-       window the screen is simply black and the swap is invisible */
     clone.animate([
       { backgroundColor: '#FFFFFF' },
       { backgroundColor: '#000000', offset: 0.5 },
       { backgroundColor: '#000000' }
-    ], { duration: DUR, easing: 'ease-in', fill: 'forwards' });
+    ], { duration: dur, easing: 'ease-in', fill: 'forwards' });
 
     // the page itself steps back so the plate is the only thing moving
     var stage = document.querySelector('.stage') || document.querySelector('.works');
     if (stage && stage.animate) {
-      stage.animate(
+      liveStageAnim = stage.animate(
         [{ opacity: 1 }, { opacity: 0 }],
         { duration: 300, easing: 'ease-in', fill: 'forwards' }
       );
@@ -115,20 +146,30 @@
     try { sessionStorage.setItem(MORPH_KEY, '1'); } catch (err) { /* ignore */ }
 
     // navigate once the screen is fully covered
-    setTimeout(function () { window.location.href = url; }, DUR - 40);
+    setTimeout(function () { window.location.href = url; }, dur - 40);
     return true;
   }
+
+  /* which plates get a morph, and how they move */
+  var MORPHS = [
+    { match: /contact\.html$/i, spin: -372, dur: 620 },   // spins into the card
+    { match: /about\.html$/i,   spin: 0,    dur: 520 }    // comes straight at you
+  ];
 
   if (!calm) {
     document.addEventListener('click', function (e) {
       var a = e.target.closest ? e.target.closest('a[href]') : null;
       if (!a || !plainNavigation(e, a)) return;
-
-      // only a nav plate pointing at Contact is animated
       if (!a.classList.contains('nav-btn')) return;
-      if (!/contact\.html$/i.test(a.pathname)) return;
 
-      if (morphToContact(a, a.href)) e.preventDefault();
+      for (var i = 0; i < MORPHS.length; i++) {
+        if (MORPHS[i].match.test(a.pathname)) {
+          if (morphOut(a, a.href, MORPHS[i].spin, MORPHS[i].dur)) {
+            e.preventDefault();
+          }
+          return;
+        }
+      }
     });
   }
 

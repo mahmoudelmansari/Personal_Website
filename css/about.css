@@ -395,6 +395,52 @@ body.page-about.is-ready .discover{animation:fade-up .45s ease-out .40s forwards
 body.page-about.is-ready .cv      {animation:fade-up .45s ease-out .48s forwards}
 body.page-about.is-ready .shot    {animation:slam-right .5s cubic-bezier(.2,.9,.3,1) .14s forwards}
 
+/* --- arriving from the ABOUT plate morph -----------------------
+   The plate came straight at the screen, grew past it and turned
+   black — so this page loads with everything already covered. It
+   then opens out from the centre, as though we walked through the
+   plate and this is what's behind it.
+
+   The whole frame is animated as one piece rather than element by
+   element, which is what makes it read as moving forward into a
+   space instead of a page assembling itself.
+
+   TUNING
+     --through-time   how long the room takes to settle
+     --through-scale  how close we start — higher means further past
+                      the doorway, so more travel on arrival
+   ------------------------------------------------------------- */
+body.page-about.from-morph{
+  --through-time:  .8s;
+  --through-scale: 1.14;
+}
+
+@keyframes walk-through{
+  from{opacity:0; transform:scale(var(--through-scale))}
+  to  {opacity:1; transform:none}
+}
+
+/* the per-element entrance is switched off here — the frame moves as
+   a whole instead */
+body.page-about.from-morph .intro > *,
+body.page-about.from-morph .panel,
+body.page-about.from-morph .discover,
+body.page-about.from-morph .cv,
+body.page-about.from-morph .shot{
+  opacity:1;
+  animation:none !important;
+}
+
+body.page-about.from-morph .frame{
+  opacity:0;
+  animation:walk-through var(--through-time) cubic-bezier(.22,.8,.3,1) forwards;
+}
+
+/* the background fades up from the black cover rather than snapping in */
+body.page-about.from-morph .bg{
+  animation:fade-in .4s ease-out forwards;
+}
+
 /* ---------------------------------------------------------------
    8. MOBILE — the frame is switched off by style.css below 760px,
    so everything here just needs to flow.
@@ -476,4 +522,5 @@ body.page-about{overflow-x:hidden}
   .page-about .discover,
   .page-about .cv,
   .page-about .shot{opacity:1;animation:none !important}
+  body.page-about.from-morph .frame{opacity:1;animation:none !important}
 }
