@@ -304,7 +304,7 @@ body.page-contact.is-ready .note     {animation:fade-in .5s ease-out .6s forward
    page; raise them together if you lengthen --land-time. */
 body.page-contact.from-morph{
   --land-time:  .65s;
-  --land-scale: 4;
+  --land-scale: 5;
   --land-tilt:  -12deg;
 }
 
