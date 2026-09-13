@@ -18,7 +18,7 @@
         -> the video only loads once clicked, so the page stays fast.
 
    Image paths are relative to the site root. Drop files in
-   "Works Page Asset/<slug>/". Anything missing shows a labelled
+   "works-assets/Projects/<slug>/". Anything missing shows a labelled
    placeholder instead of a broken image, so the page never looks broken
    while you're still gathering assets.
    ===================================================================== */
@@ -67,23 +67,23 @@ const SECTIONS = [
         note: 'Try it\nout!',
         media: [
           { type:'youtube', id:'p8-qSDq9iXQ', alt:'Game Footage' },
-          { type:'image', src:'Works Page Asset/Projects/Puzzle & Metroidvania Game/Image 1.jpg',
+          { type:'image', src:'works-assets/Projects/puzzle-metroidvania/image-1.jpg',
             alt:'Puzzle & Metroidvania game' },
-          { type:'image', src:'Works Page Asset/Projects/Puzzle & Metroidvania Game/Image 2.jpg',
+          { type:'image', src:'works-assets/Projects/puzzle-metroidvania/image-2.jpg',
             alt:'Puzzle & Metroidvania game' },
-          { type:'image', src:'Works Page Asset/Projects/Puzzle & Metroidvania Game/Image 3.jpg',
+          { type:'image', src:'works-assets/Projects/puzzle-metroidvania/image-3.jpg',
             alt:'Puzzle & Metroidvania game' },
-          { type:'image', src:'Works Page Asset/Projects/Puzzle & Metroidvania Game/Image 4.jpg',
+          { type:'image', src:'works-assets/Projects/puzzle-metroidvania/image-4.jpg',
             alt:'Puzzle & Metroidvania game' },
-          { type:'image', src:'Works Page Asset/Projects/Puzzle & Metroidvania Game/Image 5.jpg',
+          { type:'image', src:'works-assets/Projects/puzzle-metroidvania/image-5.jpg',
             alt:'Puzzle & Metroidvania game' },
-          { type:'image', src:'Works Page Asset/Projects/Puzzle & Metroidvania Game/Image 6.jpg',
+          { type:'image', src:'works-assets/Projects/puzzle-metroidvania/image-6.jpg',
             alt:'Puzzle & Metroidvania game' },
-          { type:'image', src:'Works Page Asset/Projects/Puzzle & Metroidvania Game/Image 7.jpg',
+          { type:'image', src:'works-assets/Projects/puzzle-metroidvania/image-7.jpg',
             alt:'Puzzle & Metroidvania game' },
-          { type:'image', src:'Works Page Asset/Projects/Puzzle & Metroidvania Game/Image 8.jpg',
+          { type:'image', src:'works-assets/Projects/puzzle-metroidvania/image-8.jpg',
             alt:'Puzzle & Metroidvania game' },
-          { type:'image', src:'Works Page Asset/Projects/Puzzle & Metroidvania Game/Main Character Design - Insta.png',
+          { type:'image', src:'works-assets/Projects/puzzle-metroidvania/main-character-design.png',
             alt:'Main character design' },
         ]
       },
@@ -96,7 +96,7 @@ const SECTIONS = [
         description:
           'This is the game I\'m currently developing, a card game inspired by Balatro.\n\n ' +
           'You still form poker hands, but you build them by placing cards on a graph, ' +
-          'a single card can make several combos at once depending on it position \n\n' +
+          'a single card can make several combos at once depending on its position \n\n' +
 
           'Between rounds you build your deck,' +
           'collect jokers that change how scoring and combos work on the graph, ' +
@@ -146,11 +146,11 @@ const SECTIONS = [
       {
         title: 'Lazer Blocks',
         titleAccent: '',
-        tags: ['Unity', 'C#', '2D', 'Level Design', 'Puzzle Design', 'UI'],
+        tags: ['Unity', 'C#', '2D', 'Level Design', 'Puzzle Design', 'UI', 'Mobile'],
         description:
           'I made this game in my third year of college. It\'s a grid-based mobile ' +
           'puzzle game, and one of the most polished and original things I built at  ' +
-          'that time. I was really pretty with it, and it got me some attention.\n\n' +
+          'that time. I was really happy with it, and it got me some attention.\n\n' +
           
           'There are two types of blocks, each a different color. Blocks slide from ' +
           'corner to corner unless something is in the way. Place blocks of one type ' +
@@ -162,12 +162,12 @@ const SECTIONS = [
         meta: [
           ['My Role', 'Solo Developer'],
           ['Engine',  'Unity, Meta Quest'],
-          ['Year',    '2026']
+          ['Year',    '2022']
         ],
         cta:  { label: 'Play Game', href: '#' },
         note: 'On\nPlay Store',
         media: [
-          { type:'youtube', id:'a_QPN5snLUg', alt:'WHA magic system prototype' },
+          { type:'youtube', id:'a_QPN5snLUg', alt:'lazer blocks video' },
           ]
       },
       {
@@ -180,7 +180,7 @@ const SECTIONS = [
         meta: [
           ['My Role', 'Solo Developer'],
           ['Engine',  'Unity, Meta Quest'],
-          ['Year',    '2026']
+          ['Year',    '2024']
         ],
         cta:  { label: 'Watch Video', href: 'https://www.youtube.com/watch?v=71-c-3YYhvQ' },
         note: 'On\nYoutube',
@@ -195,21 +195,21 @@ const SECTIONS = [
         description:
           'A mobile game inspired by one of my favourite arcade mobile games, Knife Hit.\n\n' +
           'You shoot at the rotating core while avoiding obstacles, and every fifth level you fight a ' +
-          'boss with its own attack pattern. You collect gems to buy upgrades and unlock new abilities',
+          'boss with its own attack pattern. You collect gems to buy upgrades and unlock new abilities.',
         meta: [
           ['My Role', 'Solo Developer'],
           ['Engine',  'Unity, Meta Quest'],
-          ['Year',    '2026']
+          ['Year',    '2023']
         ],
         cta:  { label: '', href: '#' },
         note: 'On\nPlay Store',
         media: [
           { type:'youtube', id:'orPZPgl0-k8', alt:'Game Footage' },
-          { type:'image', src:'Works Page Asset/Projects/Shatter Hit/SH1.jpeg',
+          { type:'image', src:'works-assets/Projects/shatter-hit/SH1.jpeg',
           alt:'Image 1' },
-          { type:'image', src:'Works Page Asset/Projects/Shatter Hit/SH2.jpeg',
+          { type:'image', src:'works-assets/Projects/shatter-hit/SH2.jpeg',
           alt:'Image 2' },
-          { type:'image', src:'Works Page Asset/Projects/Shatter Hit/SH3.jpeg',
+          { type:'image', src:'works-assets/Projects/shatter-hit/SH3.jpeg',
           alt:'Image 3' },
         ]
       },
@@ -226,15 +226,15 @@ const SECTIONS = [
         meta: [
           ['My Role', 'Solo Developer'],
           ['Engine',  'Unity, Meta Quest'],
-          ['Year',    '2026']
+          ['Year',    '2023']
         ],
         cta:  { label: '', href: '#' },
         note: 'On\nPlay Store',
         media: [
-            { type:'youtube', id:'9oSgedGWg7M', alt:'WHA magic system prototype' },
-            { type:'image', src:'Works Page Asset/Projects/Tower Defenders/Image 1.png',
+            { type:'youtube', id:'9oSgedGWg7M', alt:'Tower Defenders gameplay' },
+            { type:'image', src:'works-assets/Projects/tower-defenders/image-1.png',
             alt:'Image 1' },
-            { type:'image', src:'Works Page Asset/Projects/Tower Defenders/Image 2.png',
+            { type:'image', src:'works-assets/Projects/tower-defenders/image-2.png',
             alt:'Image 2' },
         ]
       }
@@ -269,7 +269,7 @@ const SECTIONS = [
         meta: [
           ['Platform', 'YouTube'],
           ['Topics',   'Math, Unity, Shaders, Tools'],
-          ['Since',    '2023']
+          ['Since',    '2025']
         ],
         cta:  { label: 'Watch on YouTube', href: 'https://www.youtube.com/@MahmoudElMansariEN-ze5fo/videos' },
         note: 'All Videos',
@@ -300,7 +300,7 @@ const SECTIONS = [
         tags: ['Photoshop', 'Painting', 'Digital Art', 'Character Design'],
         description:
           'One of my favorite parts of drawing is making and designing new characters. \n\n' +
-          'This is a collection of some of the characters I\'ve made over the years \n\n' +
+          'This is a collection of some of the characters I\'ve made over the years. \n\n' +
           'Some were for personal projects, some for practicing and experimenting, and some were fan art of shows I love.',
         meta: [
           ['Type',  'Concept Art'],
@@ -310,17 +310,17 @@ const SECTIONS = [
         cta:  { label: 'View Gallery', href: 'https://www.instagram.com/mahmoudlmansari/' },
         note: 'On \n Instagram',
         media: [
-          { type:'image', src:'Works Page Asset/Art/Characters/Main Character Design - Insta.png',
+          { type:'image', src:'works-assets/Art/Characters/main-character-design.png',
             alt:'Main character design' },
-          { type:'image', src:'Works Page Asset/Art/Characters/Faputa_Sosu.png',
+          { type:'image', src:'works-assets/Art/Characters/Faputa_Sosu.png',
             alt:'Faputa study' },
-          { type:'image', src:'Works Page Asset/Art/Characters/Powder_Finished.png',
+          { type:'image', src:'works-assets/Art/Characters/Powder_Finished.png',
             alt:'Powder' },
-          { type:'image', src:'Works Page Asset/Art/Characters/Portrait_3.png',
+          { type:'image', src:'works-assets/Art/Characters/Portrait_3.png',
             alt:'Portrait study' },
-          { type:'image', src:'Works Page Asset/Art/Characters/Protrait_studey_3_finished.png',
+          { type:'image', src:'works-assets/Art/Characters/Protrait_studey_3_finished.png',
             alt:'Portrait study, finished' },
-          { type:'image', src:'Works Page Asset/Art/Characters/Practice_1_Finished.png',
+          { type:'image', src:'works-assets/Art/Characters/Practice_1_Finished.png',
             alt:'Practice piece' }
         ]
       }
