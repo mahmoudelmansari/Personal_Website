@@ -164,7 +164,7 @@ const SECTIONS = [
           ['Engine',  'Unity, Meta Quest'],
           ['Year',    '2022']
         ],
-        cta:  { label: 'Play Game', href: '#' },
+        cta:  { label: 'Play Game', href: 'https://play.google.com/store/apps/details?id=com.BankaiGames.LazerBlocks' },
         note: 'On\nPlay Store',
         media: [
           { type:'youtube', id:'a_QPN5snLUg', alt:'lazer blocks video' },
