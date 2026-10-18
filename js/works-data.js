@@ -85,6 +85,7 @@ const SECTIONS = [
             alt:'Puzzle & Metroidvania game' },
           { type:'image', src:'works-assets/Projects/puzzle-metroidvania/main-character-design.png',
             alt:'Main character design' },
+          { type:'youtube', id:'O9LBjBR9gWU', alt:'Early Game Prototype' },
         ]
       },
       {
@@ -110,7 +111,9 @@ const SECTIONS = [
         cta:  { label: '', href: '#' },
         note: 'In development',
         media: [
+          { type:'youtube', id:'ghoPVR8qK10', alt:'First Rough Demo' },
           { type:'youtube', id:'-q3O6mWJZJ8', alt:'Card Game Footage Video' },
+          { type:'youtube', id:'AEExyTa7JFc', alt:'Early Game Prototype' },
         ]
       },
       {
